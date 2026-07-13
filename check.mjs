@@ -15,7 +15,7 @@ const must = [
   ['property="og:title"', 'og:title tag'],
   ['name="description"', 'meta description'],
   ['rel="canonical"', 'canonical link'],
-  ['Noto Sans Bengali', 'bangla font-family referenced'],
+  ['noto-sans-bengali.woff2', 'bangla font preloaded'],
 ];
 for (const [needle, label] of must) {
   html.includes(needle) ? ok(label) : fail(`${label} — missing: ${needle}`);
