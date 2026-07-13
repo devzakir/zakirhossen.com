@@ -35,4 +35,8 @@ for (const h of ['jugglehire.com', 'linkedin.com/in/devzakir']) {
   html.includes(h) ? ok(`link: ${h}`) : fail(`link missing: ${h}`);
 }
 
+for (const f of ['dist/robots.txt', 'dist/sitemap-index.xml']) {
+  existsSync(f) ? ok(`file: ${f}`) : fail(`missing file: ${f}`);
+}
+
 if (process.exitCode) { console.error('\nCHECK FAILED'); } else { console.log('\nCHECK PASSED'); }
