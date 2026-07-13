@@ -1,0 +1,36 @@
+---
+import '../styles/global.css';
+import { content } from '../data/content';
+const { meta } = content;
+---
+<html lang="bn">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{meta.title}</title>
+    <meta name="description" content={meta.description} />
+    <link rel="canonical" href={meta.url} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={meta.title} />
+    <meta property="og:description" content={meta.description} />
+    <meta property="og:url" content={meta.url} />
+    <meta property="og:image" content={meta.url + meta.ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={meta.title} />
+    <meta name="twitter:description" content={meta.description} />
+
+    <style is:inline>
+      @font-face {
+        font-family: "Noto Sans Bengali";
+        src: url("/fonts/noto-sans-bengali.woff2") format("woff2");
+        font-weight: 100 900;
+        font-display: swap;
+      }
+    </style>
+  </head>
+  <body class="bg-white text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100">
+    <slot />
+  </body>
+</html>

@@ -12,6 +12,10 @@ const html = readFileSync('dist/index.html', 'utf8');
 
 const must = [
   ['<html lang="bn"', 'root html lang=bn'],
+  ['property="og:title"', 'og:title tag'],
+  ['name="description"', 'meta description'],
+  ['rel="canonical"', 'canonical link'],
+  ['Noto Sans Bengali', 'bangla font-family referenced'],
 ];
 for (const [needle, label] of must) {
   html.includes(needle) ? ok(label) : fail(`${label} — missing: ${needle}`);

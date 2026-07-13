@@ -1,1 +1,16 @@
 @import "tailwindcss";
+
+@font-face {
+  font-family: "Noto Sans Bengali";
+  src: url("/fonts/noto-sans-bengali.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+:root { color-scheme: light dark; }
+
+@theme {
+  --font-bangla: "Noto Sans Bengali", system-ui, sans-serif;
+}
+
+html { font-family: var(--font-bangla); -webkit-font-smoothing: antialiased; }
