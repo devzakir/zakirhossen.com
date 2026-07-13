@@ -6,7 +6,7 @@ const { follow } = content;
   <h2 class="mb-6 text-sm font-semibold uppercase tracking-wide text-neutral-500" lang="bn">যেখানে পাবেন</h2>
   <div class="space-y-3">
     {follow.map((s) => (
-      <a href={s.href} rel="noopener"
+      <a href={s.href} target="_blank" rel="noopener noreferrer"
          class="flex items-baseline justify-between gap-4 border-b border-neutral-200 py-3 dark:border-neutral-800">
         <span class="font-medium" lang="en">{s.label}</span>
         <span class="text-right text-sm text-neutral-500" lang="bn">{s.noteBn}</span>
