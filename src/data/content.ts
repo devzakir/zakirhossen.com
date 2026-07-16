@@ -1,60 +1,69 @@
 export const content = {
   meta: {
-    title: 'জাকির হোসেন — ধীরে, সৎভাবে, ধৈর্য ধরে গড়ে তোলা',
+    title: 'Zakir Hossen — solo founder building software in the open',
     description:
-      'গ্রাম থেকে, শূন্য থেকে গড়ে তোলা এক সোলো ফাউন্ডারের গল্প। JuggleHire ও Lomeyo LLC-এর নির্মাতা জাকির হোসেন।',
+      'Bangladeshi solo founder building software products under Lomeyo, LLC — JuggleHire, Schedule & Chill, and more. Built in the open, real numbers, real failures.',
     url: 'https://devzakir.com',
     ogImage: '/og.png',
   },
   hero: {
-    name: 'জাকির হোসেন',
-    fightBn: 'গ্রাম থেকে, শূন্য থেকে — ধীরে, সৎভাবে, ধৈর্য ধরে গড়ে তুলছি।',
-    bridgeEn: 'Bangladeshi solo founder building global SaaS — in the open.',
+    name: 'Zakir Hossen',
+    headlineEn: 'Bangladeshi solo founder building software products in the open.',
+    accentBn: 'গ্রাম থেকে, শূন্য থেকে — ধীরে, সৎভাবে, ধৈর্য ধরে।',
   },
   fights: [
-    { bn: 'অল্প বয়সে বিয়ে করেছি — তবু স্বপ্ন ছাড়িনি।' },
-    { bn: 'প্রতিদিন শিখি, সারাজীবন শিখব।' },
-    { bn: 'চরিত্র গড়ে ধীরে, তাড়াহুড়ো করে নয়।' },
-    { bn: 'শূন্য থেকে সম্পদ — কোনো ডিগ্রি নেই, কোনো ফান্ডিং নেই।' },
-    { bn: 'সবকিছু খোলাখুলি — আসল সংখ্যা, আসল ব্যর্থতা।' },
+    { en: 'Married young. Never let go of the dream.', bn: 'অল্প বয়সে বিয়ে করেছি — তবু স্বপ্ন ছাড়িনি।' },
+    { en: 'Learning every day. For life.', bn: 'প্রতিদিন শিখি, সারাজীবন শিখব।' },
+    { en: 'Character is built slowly, never rushed.', bn: 'চরিত্র গড়ে ধীরে, তাড়াহুড়ো করে নয়।' },
+    { en: 'From zero to wealth — no degree, no funding.', bn: 'শূন্য থেকে সম্পদ — কোনো ডিগ্রি নেই, কোনো ফান্ডিং নেই।' },
+    { en: 'Everything in the open — real numbers, real failures.', bn: 'সবকিছু খোলাখুলি — আসল সংখ্যা, আসল ব্যর্থতা।' },
   ],
-  building: [
-    {
-      name: 'JuggleHire',
-      descBn: 'ছোট দল ও স্টার্টআপের জন্য সহজ রিক্রুটমেন্ট CRM। আমার মূল পণ্য।',
-      href: 'https://jugglehire.com',
-    },
-    {
-      name: 'Lomeyo LLC',
-      descBn: 'আমার সফটওয়্যার কোম্পানি — প্রতি মাসে নতুন পণ্য বানাই, খোলাখুলি।',
+  building: {
+    primary: [
+      {
+        name: 'JuggleHire',
+        descEn: 'Simple recruitment software for small teams and startups. My main product — grown in the open, real numbers shared.',
+        href: 'https://jugglehire.com',
+      },
+      {
+        name: 'Schedule & Chill',
+        descEn: 'A social scheduling API for developers and AI agents. Buffer for the AI era.',
+        href: 'https://schedulenchill.com',
+      },
+    ],
+    parent: {
+      name: 'Lomeyo, LLC',
+      descEn: 'The company behind them all. 100% bootstrapped — no funding, no shortcuts.',
       href: 'https://lomeyo.com',
     },
-  ],
-  story: {
-    bn: 'ময়মনসিংহের তারাকান্দা গ্রাম থেকে। SSC পাস, ডিপ্লোমা অসমাপ্ত — ১০+ বছর নিজে নিজে শেখা সফটওয়্যার ইঞ্জিনিয়ার। ২২ বছরে বিয়ে, দুই ছেলে, প্যারালাইজড বাবা। ৪.৫ লাখ টাকা দেনা থেকে ঘুরে দাঁড়িয়েছি। এখন Lomeyo LLC-এর সোলো ফাউন্ডার — লক্ষ্য ২০২৭ সালের মধ্যে মিলিয়নিয়ার।',
+    also: [
+      { name: 'ShipTell', href: 'https://shiptell.com' },
+      { name: 'LomeyoLabs', href: 'https://lomeyolabs.com' },
+    ],
   },
-  follow: [
-    {
-      label: 'LinkedIn',
-      noteBn: 'ফাউন্ডার জার্নি, ইংরেজিতে — বিল্ড আপডেট ও সংখ্যা।',
-      href: 'https://www.linkedin.com/in/devzakir',
+  story: {
+    en: "From Tarakanda, a village in Mymensingh, Bangladesh. SSC pass, dropped out of a diploma — then 10+ years teaching myself to build software. Married at 22, two sons, a paralyzed father to care for. In 2024 I was 450,000 BDT in debt. I climbed out. Today I'm the solo founder of Lomeyo, LLC — building software products in the open, working toward a million by the end of 2027.",
+    accentBn: 'ধীরে, সৎভাবে, ধৈর্য ধরে — এটাই আমার পথ।',
+  },
+  follow: {
+    founder: {
+      label: 'Building in public — English',
+      channels: [
+        { label: 'LinkedIn', note: 'Founder journey, build updates, real numbers.', href: 'https://www.linkedin.com/in/devzakir' },
+        { label: 'X', note: 'Daily build updates and screenshots.', href: 'https://x.com/devzakir' },
+        { label: 'YouTube', note: 'English videos — building software, solo.', href: 'https://youtube.com/@devzakir' },
+      ],
     },
-    {
-      label: 'X (Twitter)',
-      noteBn: 'প্রতিদিনের বিল্ড আপডেট, স্ক্রিনশট।',
-      href: 'https://x.com/devzakir',
+    bhai: {
+      label: 'বাংলায় — জীবন ও কাজ',
+      channels: [
+        { label: 'YouTube', note: 'বাংলা ভিডিও — শৃঙ্খলা, দ্বীন, উদ্যোক্তা জীবন।', href: 'https://youtube.com/@devzakirbhai' },
+        { label: 'Facebook', note: 'প্রতিদিনের জীবন ও কাজের গল্প।', href: 'https://facebook.com/devzakirbhai' },
+        { label: 'Instagram', note: 'ছোট ভিডিও, রিলস।', href: 'https://instagram.com/devzakirbhai' },
+        { label: 'TikTok', note: 'ছোট ক্লিপ — খোলাখুলি বিল্ডিং।', href: 'https://tiktok.com/@devzakirbhai' },
+      ],
     },
-    {
-      label: 'YouTube',
-      noteBn: 'বাংলা ভিডিও — সম্পদ, শেখা, উদ্যোক্তা জীবন।',
-      href: 'https://youtube.com/@devzakir',
-    },
-    {
-      label: 'TikTok',
-      noteBn: 'ছোট ভিডিও — বিল্ডিং ইন পাবলিক।',
-      href: 'https://tiktok.com/@devzakir',
-    },
-  ],
+  },
   footer: {
     email: 'zakir@lomeyo.com',
   },

@@ -1,16 +1,24 @@
 ---
 import { content } from '../data/content';
 const { follow } = content;
+const lanes = [follow.founder, follow.bhai];
 ---
 <section class="mx-auto max-w-2xl px-6 py-16">
-  <h2 class="mb-6 text-sm font-semibold uppercase tracking-wide text-neutral-500" lang="bn">যেখানে পাবেন</h2>
-  <div class="space-y-3">
-    {follow.map((s) => (
-      <a href={s.href} target="_blank" rel="noopener noreferrer"
-         class="flex items-baseline justify-between gap-4 border-b border-neutral-200 py-3 dark:border-neutral-800">
-        <span class="font-medium" lang="en">{s.label}</span>
-        <span class="text-right text-sm text-neutral-500" lang="bn">{s.noteBn}</span>
-      </a>
+  <h2 class="mb-6 text-sm font-semibold uppercase tracking-wide text-neutral-500" lang="en">Where to follow</h2>
+  <div class="space-y-10">
+    {lanes.map((lane) => (
+      <div>
+        <h3 class="mb-3 text-xs font-semibold uppercase tracking-wide text-neutral-400">{lane.label}</h3>
+        <div class="space-y-3">
+          {lane.channels.map((s) => (
+            <a href={s.href} target="_blank" rel="noopener noreferrer"
+               class="flex items-baseline justify-between gap-4 border-b border-neutral-200 py-3 dark:border-neutral-800">
+              <span class="font-medium" lang="en">{s.label}</span>
+              <span class="text-right text-sm text-neutral-500">{s.note}</span>
+            </a>
+          ))}
+        </div>
+      </div>
     ))}
   </div>
 </section>

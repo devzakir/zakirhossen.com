@@ -3,10 +3,11 @@ import { content } from '../data/content';
 const { fights } = content;
 ---
 <section class="mx-auto max-w-2xl px-6 py-16" aria-label="What I stand for">
-  <ul class="space-y-4" lang="bn">
+  <ul class="space-y-5">
     {fights.map((f) => (
-      <li class="border-l-2 border-neutral-300 pl-4 text-lg leading-relaxed dark:border-neutral-700">
-        {f.bn}
+      <li class="border-l-2 border-neutral-300 pl-4 dark:border-neutral-700">
+        <span class="block text-lg leading-relaxed" lang="en">{f.en}</span>
+        <span class="mt-1 block text-sm text-neutral-500" lang="bn">{f.bn}</span>
       </li>
     ))}
   </ul>

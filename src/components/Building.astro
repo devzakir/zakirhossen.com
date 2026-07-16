@@ -3,14 +3,28 @@ import { content } from '../data/content';
 const { building } = content;
 ---
 <section class="mx-auto max-w-2xl px-6 py-16">
-  <h2 class="mb-6 text-sm font-semibold uppercase tracking-wide text-neutral-500" lang="bn">যা বানাচ্ছি</h2>
+  <h2 class="mb-6 text-sm font-semibold uppercase tracking-wide text-neutral-500" lang="en">What I'm building</h2>
   <div class="space-y-4">
-    {building.map((b) => (
+    {building.primary.map((b) => (
       <a href={b.href} target="_blank" rel="noopener noreferrer"
          class="block rounded-xl border border-neutral-200 p-5 transition hover:border-neutral-400 dark:border-neutral-800 dark:hover:border-neutral-600">
         <div class="font-semibold" lang="en">{b.name}</div>
-        <div class="mt-1 text-neutral-600 dark:text-neutral-400" lang="bn">{b.descBn}</div>
+        <div class="mt-1 text-neutral-600 dark:text-neutral-400" lang="en">{b.descEn}</div>
       </a>
     ))}
+    <a href={building.parent.href} target="_blank" rel="noopener noreferrer"
+       class="block rounded-xl border border-dashed border-neutral-200 p-5 transition hover:border-neutral-400 dark:border-neutral-800 dark:hover:border-neutral-600">
+      <div class="font-semibold" lang="en">{building.parent.name}</div>
+      <div class="mt-1 text-neutral-600 dark:text-neutral-400" lang="en">{building.parent.descEn}</div>
+    </a>
   </div>
+  <p class="mt-4 text-sm text-neutral-500" lang="en">
+    Also:{' '}
+    {building.also.map((b, i) => (
+      <>
+        {i > 0 && ', '}
+        <a href={b.href} target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 hover:text-neutral-700 dark:hover:text-neutral-300">{b.name}</a>
+      </>
+    ))}
+  </p>
 </section>
