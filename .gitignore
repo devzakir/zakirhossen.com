@@ -9,3 +9,6 @@ dist/
 # Re-clone with: git clone git@github.com:devzakir/context.git context
 context/
 .superpowers/
+
+# codegraph local index
+.codegraph/
