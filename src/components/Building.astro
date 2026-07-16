@@ -7,13 +7,13 @@ const { building } = content;
   <div class="space-y-4">
     {building.primary.map((b) => (
       <a href={b.href} target="_blank" rel="noopener noreferrer"
-         class="block rounded-xl border border-neutral-200 p-5 transition hover:border-neutral-400 dark:border-neutral-800 dark:hover:border-neutral-600">
+         class="block rounded-xl border border-neutral-200 p-5 transition hover:border-accent dark:border-neutral-800">
         <div class="font-semibold" lang="en">{b.name}</div>
         <div class="mt-1 text-neutral-600 dark:text-neutral-400" lang="en">{b.descEn}</div>
       </a>
     ))}
     <a href={building.parent.href} target="_blank" rel="noopener noreferrer"
-       class="block rounded-xl border border-dashed border-neutral-200 p-5 transition hover:border-neutral-400 dark:border-neutral-800 dark:hover:border-neutral-600">
+       class="block rounded-xl border border-dashed border-neutral-200 p-5 transition hover:border-accent dark:border-neutral-800">
       <div class="font-semibold" lang="en">{building.parent.name}</div>
       <div class="mt-1 text-neutral-600 dark:text-neutral-400" lang="en">{building.parent.descEn}</div>
     </a>
@@ -23,7 +23,7 @@ const { building } = content;
     {building.also.map((b, i) => (
       <>
         {i > 0 && ', '}
-        <a href={b.href} target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 hover:text-neutral-700 dark:hover:text-neutral-300">{b.name}</a>
+        <a href={b.href} target="_blank" rel="noopener noreferrer" class="text-accent underline-offset-2 hover:underline">{b.name}</a>
       </>
     ))}
   </p>

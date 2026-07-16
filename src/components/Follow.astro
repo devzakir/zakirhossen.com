@@ -8,12 +8,12 @@ const lanes = [follow.founder, follow.bhai];
   <div class="space-y-10">
     {lanes.map((lane) => (
       <div>
-        <h3 class="mb-3 text-xs font-semibold uppercase tracking-wide text-neutral-400">{lane.label}</h3>
+        <h3 class="mb-3 text-xs font-semibold uppercase tracking-wide text-accent">{lane.label}</h3>
         <div class="space-y-3">
           {lane.channels.map((s) => (
             <a href={s.href} target="_blank" rel="noopener noreferrer"
-               class="flex items-baseline justify-between gap-4 border-b border-neutral-200 py-3 dark:border-neutral-800">
-              <span class="font-medium" lang="en">{s.label}</span>
+               class="group flex items-baseline justify-between gap-4 border-b border-neutral-200 py-3 transition-colors hover:border-accent dark:border-neutral-800">
+              <span class="font-medium transition-colors group-hover:text-accent" lang="en">{s.label}</span>
               <span class="text-right text-sm text-neutral-500">{s.note}</span>
             </a>
           ))}

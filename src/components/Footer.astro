@@ -4,6 +4,6 @@ const { footer } = content;
 const year = new Date().getFullYear();
 ---
 <footer class="mx-auto max-w-2xl px-6 py-16 text-center text-sm text-neutral-500">
-  <a href={`mailto:${footer.email}`} lang="en">{footer.email}</a>
+  <a href={`mailto:${footer.email}`} lang="en" class="transition-colors hover:text-accent">{footer.email}</a>
   <p class="mt-2" lang="en">© {year} Zakir Hossen</p>
 </footer>

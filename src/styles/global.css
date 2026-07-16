@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* Manual theme control: `dark:` responds to a .dark class on <html>,
+   set by the no-flash script + toggle (not just OS preference). */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @font-face {
   font-family: "Noto Sans Bengali";
   src: url("/fonts/noto-sans-bengali.woff2") format("woff2");
@@ -9,8 +13,13 @@
 
 :root { color-scheme: light dark; }
 
-@theme {
+/* Single accent, adapts per theme. Change these two lines to reskin. */
+:root { --accent: #047857; }   /* emerald-700 — on light */
+.dark { --accent: #34d399; }   /* emerald-400 — on dark  */
+
+@theme inline {
   --font-bangla: "Noto Sans Bengali", system-ui, sans-serif;
+  --color-accent: var(--accent);
 }
 
 html { font-family: var(--font-bangla); -webkit-font-smoothing: antialiased; }
