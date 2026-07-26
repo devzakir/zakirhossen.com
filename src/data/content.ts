@@ -4,7 +4,7 @@ export const content = {
     description:
       'Bangladeshi solo founder building software products under Lomeyo, LLC — JuggleHire, Schedule & Chill, and more. Built in the open, real numbers, real failures.',
     url: 'https://devzakir.com',
-    ogImage: '/og.png',
+    ogImage: '/og-v1.png',
   },
 
   // Machine-readable identity. Feeds the Person JSON-LD — the thing Google's

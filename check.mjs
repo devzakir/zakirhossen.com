@@ -46,7 +46,7 @@ for (const h of [
 for (const f of [
   'dist/robots.txt',
   'dist/sitemap-index.xml',
-  'dist/og.png',                        // social cards break silently without it
+  'dist/og-v1.png',                        // social cards break silently without it
   'dist/fonts/noto-sans-bengali.woff2', // preloaded in <head> — 404s if absent
   'dist/now/index.html',
   'dist/projects/index.html',
