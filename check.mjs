@@ -4,6 +4,12 @@ import { readFileSync, existsSync } from 'node:fs';
 const fail = (m) => { console.error('FAIL:', m); process.exitCode = 1; };
 const ok = (m) => console.log('ok -', m);
 
+// Read the canonical origin from astro.config rather than hardcoding it, so a
+// domain change is a one-line edit there and these assertions still bite.
+const SITE = readFileSync('astro.config.mjs', 'utf8').match(/site:\s*'([^']+)'/)?.[1];
+if (!SITE) { fail('could not read `site` from astro.config.mjs'); process.exit(1); }
+ok(`site origin: ${SITE}`);
+
 if (!existsSync('dist/index.html')) {
   fail('dist/index.html missing — did you run `npm run build`?');
   process.exit(1);
@@ -82,7 +88,7 @@ for (const [file, path] of [
 
   // Trailing slash everywhere — must match what the sitemap emits, or Google
   // sees the sitemap URL and the canonical as two different pages.
-  const expected = `https://devzakir.com${path}`;
+  const expected = `${SITE}${path}`;
   const inSitemap = readFileSync('dist/sitemap-0.xml', 'utf8').includes(`<loc>${expected}</loc>`);
   inSitemap ? ok(`${path} in sitemap`) : fail(`${path} — canonical ${expected} not in sitemap`);
   page.includes(`rel="canonical" href="${expected}"`)

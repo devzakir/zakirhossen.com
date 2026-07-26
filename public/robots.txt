@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://devzakir.com/sitemap-index.xml
+Sitemap: https://zakirhossen.com/sitemap-index.xml

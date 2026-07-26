@@ -3,7 +3,7 @@ export const content = {
     title: 'Zakir Hossen — solo founder building software in the open',
     description:
       'Bangladeshi solo founder building software products under Lomeyo, LLC — JuggleHire, Schedule & Chill, and more. Built in the open, real numbers, real failures.',
-    url: 'https://devzakir.com',
+    url: 'https://zakirhossen.com',
     ogImage: '/og-v1.png',
   },
 
