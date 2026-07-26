@@ -12,3 +12,6 @@ context/
 
 # codegraph local index
 .codegraph/
+
+# codegraph/ripgrep local index scope
+.ignore
