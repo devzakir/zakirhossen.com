@@ -13,8 +13,11 @@ export const content = {
   // chain. Order matters little; completeness does.
   identity: {
     name: 'Zakir Hossen',
-    handle: 'devzakir',
-    jobTitle: 'Software Engineer & Solo Founder',
+    // Both handles are declared: the English/founder lane is `devzakir`, the
+    // Bangla/life lane is `devzakirbhai`. Listing both tells search engines
+    // they are one person, not two.
+    handle: ['devzakir', 'devzakirbhai'],
+    jobTitle: 'Founder & Software Engineer',
     birthPlace: 'Tarakanda, Mymensingh, Bangladesh',
     country: 'Bangladesh',
     knowsAbout: [
