@@ -1,0 +1,26 @@
+---
+import { content } from '../data/content';
+const { nav } = content;
+// Trailing slash is normalised so "/now" and "/now/" both mark as current.
+const here = Astro.url.pathname.replace(/\/+$/, '') || '/';
+---
+<nav class="mx-auto max-w-2xl px-6 pt-8" aria-label="Primary">
+  <ul class="flex justify-center gap-6 text-sm">
+    {nav.map((item) => {
+      const current = here === item.href.replace(/\/+$/, '');
+      return (
+        <li>
+          <a
+            href={item.href}
+            aria-current={current ? 'page' : undefined}
+            class:list={[
+              'transition-colors hover:text-accent',
+              current ? 'font-semibold text-accent' : 'text-neutral-500',
+            ]}
+            lang="en"
+          >{item.label}</a>
+        </li>
+      );
+    })}
+  </ul>
+</nav>

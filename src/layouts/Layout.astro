@@ -2,27 +2,109 @@
 import '../styles/global.css';
 import { content } from '../data/content';
 import ThemeToggle from '../components/ThemeToggle.astro';
-const { meta } = content;
+import Nav from '../components/Nav.astro';
+
+const { meta, identity } = content;
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Site-root-relative path, e.g. "/now". Drives canonical + og:url. */
+  path?: string;
+  /** Extra JSON-LD nodes for this page, appended to the shared @graph. */
+  schema?: Record<string, unknown>[];
+}
+
+const {
+  title = meta.title,
+  description = meta.description,
+  path = '/',
+  schema = [],
+} = Astro.props;
+
+const canonical = new URL(path, meta.url).href;
+const ogImage = new URL(meta.ogImage, meta.url).href;
+
+const PERSON_ID = `${meta.url}/#person`;
+const ORG_ID = 'https://lomeyo.com/#organization';
+const SITE_ID = `${meta.url}/#website`;
+
+// One @graph for the whole site: the Person is the entity we want search
+// engines and LLMs to resolve, and every page points back at the same @id so
+// they accumulate into one identity instead of N disconnected pages.
+const graph = [
+  {
+    '@type': 'Person',
+    '@id': PERSON_ID,
+    name: identity.name,
+    alternateName: identity.handle,
+    url: meta.url,
+    image: new URL('/zakir.jpg', meta.url).href,
+    jobTitle: identity.jobTitle,
+    description: meta.description,
+    email: `mailto:${content.footer.email}`,
+    birthPlace: { '@type': 'Place', name: identity.birthPlace },
+    nationality: { '@type': 'Country', name: identity.country },
+    knowsLanguage: [
+      { '@type': 'Language', name: 'Bengali' },
+      { '@type': 'Language', name: 'English' },
+    ],
+    knowsAbout: identity.knowsAbout,
+    worksFor: { '@id': ORG_ID },
+    sameAs: identity.sameAs,
+  },
+  {
+    '@type': 'Organization',
+    '@id': ORG_ID,
+    name: 'Lomeyo, LLC',
+    url: 'https://lomeyo.com',
+    founder: { '@id': PERSON_ID },
+    employee: { '@id': PERSON_ID },
+  },
+  {
+    '@type': 'WebSite',
+    '@id': SITE_ID,
+    url: meta.url,
+    name: identity.name,
+    description: meta.description,
+    inLanguage: 'en',
+    publisher: { '@id': PERSON_ID },
+  },
+  ...schema,
+];
+
+const jsonLd = { '@context': 'https://schema.org', '@graph': graph };
 ---
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{meta.title}</title>
-    <meta name="description" content={meta.description} />
-    <link rel="canonical" href={meta.url} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={identity.name} />
+    <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
     <meta property="og:type" content="website" />
-    <meta property="og:title" content={meta.title} />
-    <meta property="og:description" content={meta.description} />
-    <meta property="og:url" content={meta.url} />
-    <meta property="og:image" content={meta.url + meta.ogImage} />
+    <meta property="og:site_name" content={identity.name} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${identity.name} — solo founder building software in the open`} />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={meta.title} />
-    <meta name="twitter:description" content={meta.description} />
+    <meta name="twitter:site" content="@devzakir" />
+    <meta name="twitter:creator" content="@devzakir" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
 
     <link rel="preload" href="/fonts/noto-sans-bengali.woff2" as="font" type="font/woff2" crossorigin />
+
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
 
     <script is:inline>
       (function () {
@@ -37,6 +119,7 @@ const { meta } = content;
   </head>
   <body class="bg-white text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100">
     <ThemeToggle />
+    <Nav />
     <slot />
   </body>
 </html>
