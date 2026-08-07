@@ -3,11 +3,6 @@ dist/
 .astro/
 .DS_Store
 
-# Shared LLM context — cloned locally, NOT a submodule.
-# Cloudflare Pages cannot fetch the private devzakir/context repo at build time
-# (see context/context.md §8), so it stays out of this repo entirely.
-# Re-clone with: git clone git@github.com:devzakir/context.git context
-context/
 .superpowers/
 
 # codegraph local index
