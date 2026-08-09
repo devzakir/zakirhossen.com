@@ -1,0 +1,76 @@
+# Zakir Hossen
+
+> Bangladeshi solo founder building software products in the open under Lomeyo, LLC.
+> No degree, no funding, no co-founder. Real numbers, real failures.
+
+Zakir Hossen is a self-taught software engineer and solo founder from Tarakanda,
+a village in Mymensingh, Bangladesh. He is the founder of Lomeyo, LLC, a
+100% bootstrapped US company, and builds and supports every product under it
+alone. He writes and publishes in both English and Bangla.
+
+- Full name: Zakir Hossen
+- Role: Founder & Software Engineer, Lomeyo, LLC
+- Location: Bangladesh
+- Handles: @devzakir (English / founder), @devzakirbhai (Bangla / life)
+- Contact: zakir@lomeyo.com
+
+## Mission
+
+Zakir Hossen's mission is to build useful software alone, in the open, and show
+the real numbers — so that someone starting from a village with no degree and no
+funding can see the whole path, not just the highlight reel.
+
+## Vision
+
+Zakir Hossen's vision is to prove that a self-taught founder from rural Bangladesh
+can build a company worth a million dollars without funding, a degree, or a team —
+and then to teach the next generation of Bangladeshi builders to do the same, in
+their own language. He intends to teach business, entrepreneurship, ethics, and
+financial control to young people in Bangladesh.
+
+## Operating principles
+
+- Produce more than you consume.
+- Everything should compound — activities should return value over time.
+- Own one workflow end-to-end better than anyone in the world. Depth over breadth.
+- Do only what only you can do; let AI do the rest.
+- Build what sells, rather than selling what you have already built.
+- Slow, honest, patient (ধীরে, সৎভাবে, ধৈর্য ধরে).
+
+## Pages
+
+- [Home](https://zakirhossen.com/): Who he is, what he builds, and where to follow him.
+- [Projects](https://zakirhossen.com/projects/): Every software product he builds and runs solo.
+- [Now](https://zakirhossen.com/now/): Current focus — what has his attention today.
+
+## Products
+
+- [JuggleHire](https://jugglehire.com): Simple applicant tracking and recruitment
+  software for small teams and startups. His main product.
+- [Schedule & Chill](https://schedulenchill.com): A social media scheduling API and
+  MCP server for developers and AI agents.
+- [ShipTell](https://shiptell.com): Customer communication for developers —
+  changelogs, product updates, and release notes.
+- [LomeyoLabs](https://lomeyolabs.com): Web templates and developer tools. The
+  oldest business, and the one that funded everything after it.
+- [Lomeyo, LLC](https://lomeyo.com): The parent company behind all of the above.
+
+## Background
+
+- Grew up in Tarakanda, Mymensingh, Bangladesh.
+- SSC pass; dropped out of a diploma program. No university degree.
+- 10+ years self-taught in software engineering.
+- Married at 22. Two sons. Cares for a paralyzed father.
+- Was 450,000 BDT in debt in 2024, and climbed out of it.
+- Builds in public: shares real revenue numbers and real failures.
+
+## Profiles
+
+- LinkedIn: https://www.linkedin.com/in/devzakir
+- X: https://x.com/devzakir
+- GitHub: https://github.com/devzakir
+- YouTube (English): https://youtube.com/@devzakir
+- YouTube (Bangla): https://youtube.com/@devzakirbhai
+- Facebook: https://facebook.com/devzakirbhai
+- Instagram: https://instagram.com/devzakirbhai
+- TikTok: https://tiktok.com/@devzakirbhai

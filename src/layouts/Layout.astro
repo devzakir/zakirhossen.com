@@ -13,6 +13,8 @@ interface Props {
   path?: string;
   /** Extra JSON-LD nodes for this page, appended to the shared @graph. */
   schema?: Record<string, unknown>[];
+  /** Keep the page out of the index (404 and other non-canonical routes). */
+  noindex?: boolean;
 }
 
 const {
@@ -20,6 +22,7 @@ const {
   description = meta.description,
   path = '/',
   schema = [],
+  noindex = false,
 } = Astro.props;
 
 const canonical = new URL(path, meta.url).href;
@@ -82,7 +85,9 @@ const jsonLd = { '@context': 'https://schema.org', '@graph': graph };
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="author" content={identity.name} />
-    <link rel="canonical" href={canonical} />
+    {noindex
+      ? <meta name="robots" content="noindex, follow" />
+      : <link rel="canonical" href={canonical} />}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
     <meta property="og:type" content="website" />

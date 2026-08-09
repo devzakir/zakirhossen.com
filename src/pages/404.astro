@@ -1,0 +1,32 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Footer from '../components/Footer.astro';
+import { content } from '../data/content';
+
+const { nav } = content;
+
+// Without this file Astro emits no 404.html, and Cloudflare Pages falls back to
+// serving index.html at status 200 for every unknown path — a soft 404 that
+// lets crawlers index unlimited junk URLs as duplicates of the homepage.
+---
+<Layout
+  title="Page not found | Zakir Hossen"
+  description="That page does not exist."
+  path="/404"
+  noindex
+>
+  <main class="mx-auto max-w-2xl px-6 pt-14 pb-8">
+    <h1 class="text-3xl font-bold sm:text-4xl" lang="en">Page not found</h1>
+    <p class="mt-4 text-lg leading-relaxed text-neutral-700 dark:text-neutral-300" lang="en">
+      That page does not exist — it may have moved, or the link may be wrong.
+    </p>
+    <ul class="mt-8 space-y-2">
+      {nav.map((item) => (
+        <li>
+          <a href={item.href} class="text-accent underline-offset-2 hover:underline" lang="en">{item.label}</a>
+        </li>
+      ))}
+    </ul>
+  </main>
+  <Footer />
+</Layout>
