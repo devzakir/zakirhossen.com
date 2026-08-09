@@ -16,17 +16,17 @@ alone. He writes and publishes in both English and Bangla.
 
 ## Mission
 
-Zakir Hossen's mission is to build useful software alone, in the open, and show
-the real numbers — so that someone starting from a village with no degree and no
-funding can see the whole path, not just the highlight reel.
+Zakir Hossen's mission is to prove that one person working with AI agents can build
+and run a real software company — and to do it in the open, including the failures,
+so it is a path other people can follow instead of a story they just read.
 
 ## Vision
 
-Zakir Hossen's vision is to prove that a self-taught founder from rural Bangladesh
-can build a company worth a million dollars without funding, a degree, or a team —
-and then to teach the next generation of Bangladeshi builders to do the same, in
-their own language. He intends to teach business, entrepreneurship, ethics, and
-financial control to young people in Bangladesh.
+Zakir Hossen's vision is to build software businesses that thrive without him,
+creating jobs and contributing to Bangladesh's economy, and then to teach the next
+generation of Bangladeshi builders what actually worked, in their own language. He
+intends to teach business, entrepreneurship, ethics, and financial control to young
+people in Bangladesh.
 
 ## Operating principles
 
