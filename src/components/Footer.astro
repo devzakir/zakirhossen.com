@@ -4,6 +4,11 @@ const { footer } = content;
 const year = new Date().getFullYear();
 ---
 <footer class="mx-auto max-w-2xl px-6 py-16 text-center text-sm text-neutral-500">
-  <a href={`mailto:${footer.email}`} lang="en" class="transition-colors hover:text-accent">{footer.email}</a>
+  {/* The <!--email_off--> markers are Cloudflare's opt-out for Email Address
+      Obfuscation. Left on, the edge rewrites this link into an encoded span and
+      appends /cdn-cgi/.../email-decode.min.js to every page — a request on the
+      paint path that Lighthouse counts as render-blocking. It protects nothing
+      here: the same address is already in plain text in the JSON-LD above. */}
+  <!--email_off--><a href={`mailto:${footer.email}`} lang="en" class="transition-colors hover:text-accent">{footer.email}</a><!--/email_off-->
   <p class="mt-2" lang="en">© {year} Zakir Hossen</p>
 </footer>

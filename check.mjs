@@ -110,6 +110,22 @@ if (!styleBlock) {
     : ok(`Bangla woff2 ${bytes} bytes`);
 }
 
+// PostHog stays, but at the end of <body>. In <head> its 2.6 KB stub had to run
+// before the browser could reach any content.
+const headEnd = html.indexOf('</head>');
+const phInit = html.indexOf('posthog.init(');
+phInit === -1
+  ? fail('PostHog snippet is gone — analytics would stop')
+  : phInit < headEnd
+    ? fail('PostHog snippet moved back into <head> — it blocks the first paint there')
+    : ok('PostHog snippet after </head>');
+
+// Cloudflare Email Address Obfuscation appends a decoder script to every page
+// and Lighthouse counts it as render-blocking. The opt-out markers keep it off.
+html.includes('<!--email_off-->')
+  ? ok('footer email opted out of Cloudflare obfuscation')
+  : fail('<!--email_off--> missing — the edge will inject email-decode.min.js again');
+
 // ---- structured data ------------------------------------------------------
 // The Person @graph is the whole point of the SEO pass: it's what lets Google
 // and AI search resolve "Zakir Hossen" to one entity. Assert it parses and
