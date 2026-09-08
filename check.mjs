@@ -1,5 +1,5 @@
 // check.mjs — build-output assertions. Run AFTER `npm run build`.
-import { readFileSync, readdirSync, existsSync } from 'node:fs';
+import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
 
 const fail = (m) => { console.error('FAIL:', m); process.exitCode = 1; };
 const ok = (m) => console.log('ok -', m);
@@ -21,7 +21,7 @@ const must = [
   ['property="og:title"', 'og:title tag'],
   ['name="description"', 'meta description'],
   ['rel="canonical"', 'canonical link'],
-  ['noto-sans-bengali.woff2', 'bangla font preloaded'],
+  ['noto-sans-bengali-400.woff2', 'bangla @font-face src'],
 ];
 for (const [needle, label] of must) {
   html.includes(needle) ? ok(label) : fail(`${label} — missing: ${needle}`);
@@ -53,7 +53,7 @@ for (const f of [
   'dist/robots.txt',
   'dist/sitemap-index.xml',
   'dist/og-v1.png',                        // social cards break silently without it
-  'dist/fonts/noto-sans-bengali.woff2', // preloaded in <head> — 404s if absent
+  'dist/fonts/noto-sans-bengali-400.woff2', // @font-face src — 404s if absent
   // Avatar srcset. If these go missing the <source> just 404s and every visitor
   // silently falls back to the 45 KB JPEG — no error, only a slower page.
   'dist/zakir-96.webp',
@@ -81,10 +81,33 @@ const styleBlock = html.match(/<style>([\s\S]*?)<\/style>/);
 if (!styleBlock) {
   fail('no inlined <style> block on /');
 } else {
-  const bytes = styleBlock[1].length;
-  bytes > 20000
-    ? fail(`inlined stylesheet is ${bytes} bytes — over 20 KB means Tailwind is scanning outside src/`)
-    : ok(`inlined stylesheet ${bytes} bytes (under the 20 KB budget)`);
+  const kb = styleBlock[1].length;
+  kb > 20000
+    ? fail(`inlined stylesheet is ${kb} bytes — over 20 KB means Tailwind is scanning outside src/`)
+    : ok(`inlined stylesheet ${kb} bytes (under the 20 KB budget)`);
+
+  // The Bangla face carries no Latin glyphs. Without a unicode-range every text
+  // node on the page depends on a 108 KB download, which lands inside the LCP
+  // window and re-shapes the English lines when it arrives.
+  styleBlock[1].includes('unicode-range')
+    ? ok('@font-face scoped with unicode-range')
+    : fail('@font-face lost its unicode-range — the Bangla woff2 is back on every text node');
+}
+
+// The font MUST stay preloaded. Without it Chrome discovers the face during
+// layout and fetches it at VeryHigh, the one priority Lighthouse's model counts
+// as render-blocking — measured at ~300 ms of First Contentful Paint.
+/rel="preload"[^>]*noto-sans-bengali-400\.woff2/.test(html)
+  ? ok('Bangla woff2 preloaded (keeps it at High, not VeryHigh)')
+  : fail('Bangla woff2 preload missing — layout will fetch it at VeryHigh and block first paint');
+
+// 44 KB is the instanced single-weight file. A jump back towards 108 KB means
+// somebody dropped in the full variable font again.
+{
+  const bytes = statSync('dist/fonts/noto-sans-bengali-400.woff2').size;
+  bytes > 60000
+    ? fail(`Bangla woff2 is ${bytes} bytes — the variable axis is back, instance it at wght=400`)
+    : ok(`Bangla woff2 ${bytes} bytes`);
 }
 
 // ---- structured data ------------------------------------------------------

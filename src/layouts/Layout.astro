@@ -107,7 +107,13 @@ const jsonLd = { '@context': 'https://schema.org', '@graph': graph };
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
-    <link rel="preload" href="/fonts/noto-sans-bengali.woff2" as="font" type="font/woff2" crossorigin />
+    <!-- The Bangla face is preloaded on purpose. Left to layout to discover it,
+         Chrome requests it at VeryHigh priority, which is the one priority
+         Lighthouse's model treats as render-blocking — that put the font on the
+         First Contentful Paint path and cost ~300 ms. A preload is fetched at
+         High, which is never render-blocking, and it arrives before the Bangla
+         captions are painted so there is no swap. It is 44 KB, down from 108. -->
+    <link rel="preload" href="/fonts/noto-sans-bengali-400.woff2" as="font" type="font/woff2" crossorigin />
 
     <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
 

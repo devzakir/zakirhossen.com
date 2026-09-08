@@ -12,9 +12,24 @@
 
 @font-face {
   font-family: "Noto Sans Bengali";
-  src: url("/fonts/noto-sans-bengali.woff2") format("woff2");
-  font-weight: 100 900;
+  src: url("/fonts/noto-sans-bengali-400.woff2") format("woff2");
+  /* Single weight, not the 100-900 variable axis. Every Bangla string on this
+     site is a caption at 400 and no post contains Bengali, so instancing the
+     axis at 400 dropped the file from 108 KB to 44 KB with nothing rendering
+     differently. If bold Bangla is ever needed the browser synthesises it. */
+  font-weight: 400;
   font-display: swap;
+  /* The file is the Bengali subset: 123 codepoints, 96 of them Bengali, and no
+     Latin letters at all — English has always rendered in system-ui. Without a
+     unicode-range the browser still treats EVERY text node as depending on this
+     face, so the 108 KB download sits inside the LCP window and the English
+     lines re-shape when it lands. Declaring the range it really covers keeps
+     Latin text independent of it. Ranges are Google Fonts' own `bengali` subset
+     list; deliberately excludes U+0020/U+00A0 so a space never pulls an
+     English element into the font. */
+  unicode-range: U+0951-0952, U+0964-0965, U+0980-09FE, U+1CD0, U+1CD2,
+    U+1CD5-1CD6, U+1CD8, U+1CE1, U+1CEA, U+1CED, U+1CF2, U+1CF5-1CF7,
+    U+200C-200D, U+20B9, U+25CC, U+A8F1;
 }
 
 :root { color-scheme: light dark; }
