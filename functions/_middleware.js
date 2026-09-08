@@ -22,22 +22,60 @@ const REDIRECT_HOSTS = new Set([
   'www.zakirhq.com',
 ]);
 
+const YEAR = 31536000;
+
+// Cloudflare Pages hands every static asset to the browser with
+// `public, max-age=0, must-revalidate`. That is right for HTML — a deploy must
+// be visible at once — but it makes a repeat visitor re-validate the CSS, the
+// 108 KB font and every image on each navigation. These rules put the
+// content-addressed and rename-on-change files behind a long browser cache.
+//
+// IMMUTABLE paths must never be served with changed bytes under the same name:
+//   /_astro/*  Astro writes a content hash into the filename.
+//   /fonts/*   not hashed — REPLACING A FONT MEANS RENAMING THE FILE.
+const IMMUTABLE = /^\/(?:_astro|fonts)\//;
+
+// Unversioned assets (avatar, favicon, og card). A day in the browser plus a
+// week of stale-while-revalidate: fast on repeat views, still self-healing.
+const STATIC = /\.(?:avif|webp|png|jpe?g|gif|svg|ico)$/i;
+
 export async function onRequest(context) {
   const url = new URL(context.request.url);
 
-  if (!REDIRECT_HOSTS.has(url.hostname)) return context.next();
+  if (REDIRECT_HOSTS.has(url.hostname)) {
+    url.protocol = 'https:';
+    url.hostname = PRIMARY;
+    url.port = '';
 
-  url.protocol = 'https:';
-  url.hostname = PRIMARY;
-  url.port = '';
+    return new Response(null, {
+      status: 301,
+      headers: {
+        Location: url.toString(),
+        // Redirects are permanent but cheap to re-evaluate; a day is long enough
+        // to spare the round trip without pinning a mistake into browser caches.
+        'Cache-Control': 'public, max-age=86400',
+      },
+    });
+  }
 
-  return new Response(null, {
-    status: 301,
-    headers: {
-      Location: url.toString(),
-      // Redirects are permanent but cheap to re-evaluate; a day is long enough
-      // to spare the round trip without pinning a mistake into browser caches.
-      'Cache-Control': 'public, max-age=86400',
-    },
-  });
+  const response = await context.next();
+
+  // Only cache successful reads. Errors and 3xx keep whatever they came with,
+  // so a bad deploy is never pinned into a browser for a year.
+  const method = context.request.method;
+  if ((method !== 'GET' && method !== 'HEAD') || response.status !== 200) return response;
+
+  let cacheControl;
+  if (IMMUTABLE.test(url.pathname)) {
+    cacheControl = `public, max-age=${YEAR}, immutable`;
+  } else if (STATIC.test(url.pathname)) {
+    cacheControl = 'public, max-age=86400, stale-while-revalidate=604800';
+  } else {
+    return response; // HTML, sitemaps, robots.txt, llms.txt — revalidate always.
+  }
+
+  // Response headers from the asset pipeline are immutable; re-wrap to edit.
+  const out = new Response(response.body, response);
+  out.headers.set('Cache-Control', cacheControl);
+  return out;
 }
