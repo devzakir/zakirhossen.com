@@ -72,6 +72,21 @@ html.includes('rel="stylesheet"')
   ? fail('stylesheet is a render-blocking <link> — build.inlineStylesheets regressed')
   : ok('stylesheet inlined (no render-blocking <link>)');
 
+// The inlined sheet ships on EVERY page, so its size is on the critical path of
+// every request. Tailwind v4 auto-detects content from the project root, which
+// includes the `context` submodule; one markdown file in there once added 20 KB
+// of utilities for an unrelated project. `source("../")` in global.css pins the
+// scan to src/ — this guard is what tells you if that ever comes undone.
+const styleBlock = html.match(/<style>([\s\S]*?)<\/style>/);
+if (!styleBlock) {
+  fail('no inlined <style> block on /');
+} else {
+  const bytes = styleBlock[1].length;
+  bytes > 20000
+    ? fail(`inlined stylesheet is ${bytes} bytes — over 20 KB means Tailwind is scanning outside src/`)
+    : ok(`inlined stylesheet ${bytes} bytes (under the 20 KB budget)`);
+}
+
 // ---- structured data ------------------------------------------------------
 // The Person @graph is the whole point of the SEO pass: it's what lets Google
 // and AI search resolve "Zakir Hossen" to one entity. Assert it parses and

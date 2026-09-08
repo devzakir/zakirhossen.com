@@ -1,4 +1,10 @@
-@import "tailwindcss";
+/* `source("../")` pins Tailwind's automatic content detection to src/.
+   Without it Tailwind v4 scans the whole project root, which includes the
+   `context` git submodule — and one markdown file in there
+   (context/side-projects/agencyflow/AgencyFlow.md) was pulling ~20 KB of
+   utilities for an unrelated project into this site's stylesheet. Since the
+   sheet is inlined into every page, that shipped on every request. */
+@import "tailwindcss" source("../");
 
 /* Manual theme control: `dark:` responds to a .dark class on <html>,
    set by the no-flash script + toggle (not just OS preference). */
