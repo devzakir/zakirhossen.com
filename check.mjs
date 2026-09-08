@@ -54,11 +54,23 @@ for (const f of [
   'dist/sitemap-index.xml',
   'dist/og-v1.png',                        // social cards break silently without it
   'dist/fonts/noto-sans-bengali.woff2', // preloaded in <head> — 404s if absent
+  // Avatar srcset. If these go missing the <source> just 404s and every visitor
+  // silently falls back to the 45 KB JPEG — no error, only a slower page.
+  'dist/zakir-96.webp',
+  'dist/zakir-192.webp',
+  'dist/zakir-288.webp',
   'dist/now/index.html',
   'dist/projects/index.html',
 ]) {
   existsSync(f) ? ok(`file: ${f}`) : fail(`missing file: ${f}`);
 }
+
+// The stylesheet must stay inlined. If Astro ever emits it as a <link> again the
+// page still works, so nothing fails — it just quietly costs a round trip that
+// blocks first paint, which is what dropped Lighthouse performance to 98.
+html.includes('rel="stylesheet"')
+  ? fail('stylesheet is a render-blocking <link> — build.inlineStylesheets regressed')
+  : ok('stylesheet inlined (no render-blocking <link>)');
 
 // ---- structured data ------------------------------------------------------
 // The Person @graph is the whole point of the SEO pass: it's what lets Google
