@@ -10,3 +10,4 @@ dist/
 
 # codegraph/ripgrep local index scope
 .ignore
+.wrangler/

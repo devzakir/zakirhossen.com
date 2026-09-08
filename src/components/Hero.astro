@@ -3,8 +3,17 @@ import { content } from '../data/content';
 const { hero } = content;
 ---
 <header class="mx-auto max-w-2xl px-6 pt-14 pb-16 text-center">
-  <img src="/zakir.jpg" alt={hero.name} width="96" height="96"
-       class="mx-auto mb-6 h-24 w-24 rounded-full object-cover" />
+  <!-- Rendered at 96x96 CSS px. The 400px /zakir.jpg stays as the schema.org
+       and og: image; here we serve WebP at 1x/2x/3x so a phone downloads ~9 KB
+       instead of the full 45 KB JPEG. The <img> keeps the JPEG as fallback. -->
+  <picture>
+    <source
+      type="image/webp"
+      srcset="/zakir-96.webp 1x, /zakir-192.webp 2x, /zakir-288.webp 3x"
+    />
+    <img src="/zakir.jpg" alt={hero.name} width="96" height="96" decoding="async"
+         class="mx-auto mb-6 h-24 w-24 rounded-full object-cover" />
+  </picture>
   <h1 class="text-3xl font-bold sm:text-4xl" lang="en">{hero.name}</h1>
   <p class="mt-4 text-xl leading-relaxed text-neutral-700 dark:text-neutral-300" lang="en">
     {hero.headlineEn}
