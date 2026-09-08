@@ -35,8 +35,10 @@ const YEAR = 31536000;
 //   /fonts/*   not hashed — REPLACING A FONT MEANS RENAMING THE FILE.
 const IMMUTABLE = /^\/(?:_astro|fonts)\//;
 
-// Unversioned assets (avatar, favicon, og card). A day in the browser plus a
-// week of stale-while-revalidate: fast on repeat views, still self-healing.
+// Images (avatar, favicon, og card). Same year, but WITHOUT `immutable`, so an
+// explicit reload still revalidates and the ETag turns that into a cheap 304.
+// These names are not hashed, so the site convention holds: CHANGING AN IMAGE
+// MEANS BUMPING ITS FILENAME — which is what `og-v1.png` is already doing.
 const STATIC = /\.(?:avif|webp|png|jpe?g|gif|svg|ico)$/i;
 
 export async function onRequest(context) {
@@ -69,7 +71,7 @@ export async function onRequest(context) {
   if (IMMUTABLE.test(url.pathname)) {
     cacheControl = `public, max-age=${YEAR}, immutable`;
   } else if (STATIC.test(url.pathname)) {
-    cacheControl = 'public, max-age=86400, stale-while-revalidate=604800';
+    cacheControl = `public, max-age=${YEAR}, stale-while-revalidate=604800`;
   } else {
     return response; // HTML, sitemaps, robots.txt, llms.txt — revalidate always.
   }
