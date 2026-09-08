@@ -26,8 +26,8 @@ const YEAR = 31536000;
 
 // Cloudflare Pages hands every static asset to the browser with
 // `public, max-age=0, must-revalidate`. That is right for HTML — a deploy must
-// be visible at once — but it makes a repeat visitor re-validate the CSS, the
-// 108 KB font and every image on each navigation. These rules put the
+// be visible at once — but it makes a repeat visitor re-validate the 108 KB
+// font and every image on each navigation. These rules put the
 // content-addressed and rename-on-change files behind a long browser cache.
 //
 // IMMUTABLE paths must never be served with changed bytes under the same name:
