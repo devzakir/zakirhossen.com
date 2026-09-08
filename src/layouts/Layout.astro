@@ -128,6 +128,9 @@ const jsonLd = { '@context': 'https://schema.org', '@graph': graph };
         api_host: 'https://us.i.posthog.com',
         defaults: '2026-05-30',
         person_profiles: 'identified_only',
+        // No surveys run on this site. Left on, PostHog pulls a further 34 KB
+        // of surveys.js and executes it on every page load for nothing.
+        disable_surveys: true,
       });
     </script>
   </head>
