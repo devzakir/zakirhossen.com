@@ -1,0 +1,90 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Footer from '../../components/Footer.astro';
+import { content } from '../../data/content';
+
+const { meta, identity } = content;
+const PERSON_ID = `${meta.url}/#person`;
+
+const posts = (await getCollection('writing', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+const title = 'Writing — Zakir Hossen';
+const description =
+  'Notes from building and shipping software solo: MCP servers, AI coding agents, and the APIs behind them. Written from production work, not from documentation.';
+
+const schema = [
+  {
+    '@type': 'CollectionPage',
+    '@id': `${meta.url}/writing/#page`,
+    url: `${meta.url}/writing/`,
+    name: title,
+    description,
+    about: { '@id': PERSON_ID },
+    inLanguage: 'en',
+    hasPart: posts.map((p) => ({
+      '@type': 'BlogPosting',
+      '@id': `${meta.url}/writing/${p.id}/#article`,
+      headline: p.data.title,
+      url: `${meta.url}/writing/${p.id}/`,
+      datePublished: p.data.date.toISOString().slice(0, 10),
+      author: { '@id': PERSON_ID },
+    })),
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: meta.url },
+      { '@type': 'ListItem', position: 2, name: 'Writing', item: `${meta.url}/writing/` },
+    ],
+  },
+];
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' });
+---
+<Layout title={title} description={description} path="/writing/" schema={schema}>
+  <main class="mx-auto max-w-2xl px-6 py-16">
+    <header class="mb-12">
+      <h1 class="text-3xl font-semibold tracking-tight">Writing</h1>
+      <p class="mt-4 text-neutral-600 dark:text-neutral-400">
+        Notes from building software solo — MCP servers, AI coding agents, and
+        the APIs underneath them. Everything here comes out of something I
+        actually shipped and had to debug, so the numbers are real and the
+        parts that did not work are in there too.
+      </p>
+    </header>
+
+    {posts.length === 0 ? (
+      <p class="text-neutral-500">Nothing published yet.</p>
+    ) : (
+      <ul class="space-y-10">
+        {posts.map((post) => (
+          <li>
+            <article>
+              <a href={`/writing/${post.id}/`} class="group block">
+                <h2 class="text-xl font-semibold tracking-tight transition-colors group-hover:text-accent">
+                  {post.data.title}
+                </h2>
+                <p class="mt-2 text-neutral-600 dark:text-neutral-400">
+                  {post.data.description}
+                </p>
+              </a>
+              <p class="mt-3 text-sm text-neutral-500">
+                <time datetime={post.data.date.toISOString().slice(0, 10)}>
+                  {fmt(post.data.date)}
+                </time>
+                {post.data.tags.length > 0 && (
+                  <span> · {post.data.tags.join(', ')}</span>
+                )}
+              </p>
+            </article>
+          </li>
+        ))}
+      </ul>
+    )}
+  </main>
+  <Footer />
+</Layout>

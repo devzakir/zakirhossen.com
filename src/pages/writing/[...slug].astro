@@ -1,0 +1,168 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Footer from '../../components/Footer.astro';
+import { content } from '../../data/content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('writing', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const { meta, identity } = content;
+const PERSON_ID = `${meta.url}/#person`;
+const url = `${meta.url}/writing/${post.id}/`;
+
+const published = post.data.date.toISOString().slice(0, 10);
+const modified = (post.data.updated ?? post.data.date).toISOString().slice(0, 10);
+
+/**
+ * BlogPosting, authored by the same Person `@id` the Layout declares.
+ *
+ * The point of the shared `@id` is that every article accrues to one entity
+ * instead of creating a new unlinked node per page — that is what makes a
+ * personal site readable as an authority rather than as scattered pages.
+ */
+const schema = [
+  {
+    '@type': 'BlogPosting',
+    '@id': `${url}#article`,
+    headline: post.data.title,
+    description: post.data.description,
+    url,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+    datePublished: published,
+    dateModified: modified,
+    author: { '@id': PERSON_ID },
+    publisher: { '@id': PERSON_ID },
+    inLanguage: 'en',
+    keywords: post.data.tags.join(', '),
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: meta.url },
+      { '@type': 'ListItem', position: 2, name: 'Writing', item: `${meta.url}/writing/` },
+      { '@type': 'ListItem', position: 3, name: post.data.title, item: url },
+    ],
+  },
+];
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+---
+<Layout
+  title={`${post.data.title} — Zakir Hossen`}
+  description={post.data.description}
+  path={`/writing/${post.id}/`}
+  schema={schema}
+>
+  <main class="mx-auto max-w-2xl px-6 py-16">
+    <nav aria-label="Breadcrumb" class="mb-8 text-sm text-neutral-500">
+      <a href="/writing/" class="transition-colors hover:text-accent">Writing</a>
+    </nav>
+
+    <article>
+      <header class="mb-10">
+        <h1 class="text-3xl font-semibold tracking-tight">{post.data.title}</h1>
+        <p class="mt-4 text-sm text-neutral-500">
+          <time datetime={published}>{fmt(post.data.date)}</time>
+          {post.data.updated && (
+            <span> · updated <time datetime={modified}>{fmt(post.data.updated)}</time></span>
+          )}
+          <span> · {identity.name}</span>
+        </p>
+      </header>
+
+      <div class="prose-zakir">
+        <Content />
+      </div>
+    </article>
+
+    <aside class="mt-16 border-t border-neutral-200 pt-8 dark:border-neutral-800">
+      <p class="text-sm text-neutral-600 dark:text-neutral-400">
+        I am a solo founder from Bangladesh building
+        <a href="/projects/" class="underline underline-offset-4 hover:text-accent">software products</a>
+        under Lomeyo, LLC. Everything I write comes out of shipping them.
+        <a href="/writing/" class="underline underline-offset-4 hover:text-accent">More writing</a>.
+      </p>
+    </aside>
+  </main>
+  <Footer />
+</Layout>
+
+<style is:global>
+  /* Article typography. Kept local to the writing routes so the rest of the
+     site keeps its hand-tuned spacing. */
+  .prose-zakir { line-height: 1.75; }
+  .prose-zakir > * + * { margin-top: 1.25rem; }
+  .prose-zakir h2 {
+    margin-top: 2.75rem;
+    font-size: 1.375rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    scroll-margin-top: 2rem;
+  }
+  .prose-zakir h3 {
+    margin-top: 2rem;
+    font-size: 1.075rem;
+    font-weight: 600;
+  }
+  .prose-zakir p, .prose-zakir li { color: rgb(64 64 64); }
+  :global(.dark) .prose-zakir p, :global(.dark) .prose-zakir li { color: rgb(212 212 212); }
+  .prose-zakir a { text-decoration: underline; text-underline-offset: 4px; }
+  .prose-zakir a:hover { color: var(--color-accent, #2563eb); }
+  .prose-zakir ul, .prose-zakir ol { padding-left: 1.25rem; }
+  .prose-zakir ul { list-style: disc; }
+  .prose-zakir ol { list-style: decimal; }
+  .prose-zakir li + li { margin-top: 0.5rem; }
+  .prose-zakir code {
+    border-radius: 0.25rem;
+    background: rgb(245 245 245);
+    padding: 0.125rem 0.3rem;
+    font-size: 0.875em;
+  }
+  :global(.dark) .prose-zakir code { background: rgb(38 38 38); }
+  .prose-zakir pre {
+    overflow-x: auto;
+    border-radius: 0.5rem;
+    background: rgb(23 23 23);
+    padding: 1rem;
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+  .prose-zakir pre code { background: transparent; padding: 0; color: rgb(237 237 237); }
+  .prose-zakir blockquote {
+    border-left: 3px solid rgb(212 212 212);
+    padding-left: 1rem;
+    font-style: italic;
+    color: rgb(115 115 115);
+  }
+  /* Wide tables must scroll inside themselves, never the page. */
+  .prose-zakir table {
+    display: block;
+    overflow-x: auto;
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+  .prose-zakir th, .prose-zakir td {
+    border-bottom: 1px solid rgb(229 229 229);
+    padding: 0.5rem 0.75rem;
+    text-align: left;
+    vertical-align: top;
+  }
+  :global(.dark) .prose-zakir th, :global(.dark) .prose-zakir td {
+    border-color: rgb(64 64 64);
+  }
+  .prose-zakir th { font-weight: 600; }
+  .prose-zakir hr {
+    margin-top: 2.5rem;
+    border: 0;
+    border-top: 1px solid rgb(229 229 229);
+  }
+  :global(.dark) .prose-zakir hr { border-color: rgb(64 64 64); }
+</style>

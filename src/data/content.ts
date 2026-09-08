@@ -47,6 +47,7 @@ export const content = {
   // form keeps every internal link a single hop and matches the sitemap.
   nav: [
     { label: 'Home', href: '/' },
+    { label: 'Writing', href: '/writing/' },
     { label: 'Projects', href: '/projects/' },
     { label: 'Now', href: '/now/' },
   ],

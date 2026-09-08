@@ -1,5 +1,5 @@
 // check.mjs — build-output assertions. Run AFTER `npm run build`.
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, readdirSync, existsSync } from 'node:fs';
 
 const fail = (m) => { console.error('FAIL:', m); process.exitCode = 1; };
 const ok = (m) => console.log('ok -', m);
@@ -97,10 +97,55 @@ for (const [file, path] of [
 }
 
 // Every page must be reachable from every other page (internal linking).
-for (const f of ['dist/index.html', 'dist/now/index.html', 'dist/projects/index.html']) {
+for (const f of ['dist/index.html', 'dist/now/index.html', 'dist/projects/index.html', 'dist/writing/index.html']) {
   const page = readFileSync(f, 'utf8');
-  const linked = ['href="/"', 'href="/now/"', 'href="/projects/"'].every((h) => page.includes(h));
+  const linked = ['href="/"', 'href="/now/"', 'href="/projects/"', 'href="/writing/"'].every((h) => page.includes(h));
   linked ? ok(`nav links: ${f}`) : fail(`nav links incomplete: ${f}`);
+}
+
+/*
+ * Every article must be crawlable, canonical, in the sitemap, and reachable
+ * from the /writing/ index.
+ *
+ * The last one is the point. A sibling project shipped 33 pages that were in
+ * sitemap.xml, returned 200 and had clean canonicals, and Google left them at
+ * "URL is unknown to Google" for NINE WEEKS because nothing linked them. One
+ * inbound internal link fixed it within hours. Sitemap membership is not
+ * discovery, so this asserts the link, not just the sitemap entry.
+ */
+const sitemap = readFileSync('dist/sitemap-0.xml', 'utf8');
+
+const articles = readdirSync('dist/writing', { withFileTypes: true })
+  .filter((e) => e.isDirectory())
+  .map((e) => e.name);
+
+if (articles.length === 0) fail('no articles built under dist/writing');
+
+const writingIndex = readFileSync('dist/writing/index.html', 'utf8');
+
+for (const slug of articles) {
+  const page = readFileSync(`dist/writing/${slug}/index.html`, 'utf8');
+  const url = `${SITE}/writing/${slug}/`;
+
+  page.includes(`rel="canonical" href="${url}"`)
+    ? ok(`/writing/${slug}/ canonical`)
+    : fail(`/writing/${slug}/ canonical wrong — expected ${url}`);
+
+  (page.match(/name="description"/g) || []).length === 1
+    ? ok(`/writing/${slug}/ exactly one meta description`)
+    : fail(`/writing/${slug}/ must have exactly one meta description`);
+
+  page.includes('"BlogPosting"')
+    ? ok(`/writing/${slug}/ BlogPosting schema`)
+    : fail(`/writing/${slug}/ missing BlogPosting JSON-LD`);
+
+  sitemap.includes(url)
+    ? ok(`/writing/${slug}/ in sitemap`)
+    : fail(`/writing/${slug}/ missing from sitemap`);
+
+  writingIndex.includes(`href="/writing/${slug}/"`)
+    ? ok(`/writing/${slug}/ linked from the writing index`)
+    : fail(`/writing/${slug}/ is orphaned — nothing links to it`);
 }
 
 if (process.exitCode) { console.error('\nCHECK FAILED'); } else { console.log('\nCHECK PASSED'); }
