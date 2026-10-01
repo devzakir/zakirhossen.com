@@ -214,4 +214,8 @@ for (const slug of articles) {
     : fail(`/writing/${slug}/ is orphaned — nothing links to it`);
 }
 
+// IndexNow key file must ship, or every submission fails verification (403).
+const keyFiles = readdirSync('dist').filter((f) => /^[0-9a-f]{32}\.txt$/.test(f));
+keyFiles.length === 1 ? ok(`IndexNow key file: ${keyFiles[0]}`) : fail(`expected 1 IndexNow key file in dist/, found ${keyFiles.length}`);
+
 if (process.exitCode) { console.error('\nCHECK FAILED'); } else { console.log('\nCHECK PASSED'); }
