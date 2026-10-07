@@ -112,8 +112,10 @@ const fmt = (d: Date) =>
 
     <aside class="mt-16 border-t border-neutral-200 pt-8 dark:border-neutral-800">
       <p class="text-sm text-neutral-600 dark:text-neutral-400">
-        I am a solo founder from Bangladesh building
-        <a href="/projects/" class="underline underline-offset-4 hover:text-accent">software products</a>
+        {/* Explicit spaces: the HTML compressor drops a newline next to a tag,
+            which rendered as "buildingsoftware productsunder" on the live site. */}
+        I am a solo founder from Bangladesh building{' '}
+        <a href="/projects/" class="underline underline-offset-4 hover:text-accent">software products</a>{' '}
         under Lomeyo, LLC. Everything I write comes out of shipping them.
       </p>
 

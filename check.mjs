@@ -328,6 +328,21 @@ for (const slug of articles) {
   n <= 1 ? ok(`/writing/${slug}/ ${n} cross-site link(s)`) : fail(`/writing/${slug}/ has ${n} cross-site links, max 1`);
 }
 
+// Only the 404 page may carry noindex. One stray robots meta on a real page
+// removes it from Google with no error anywhere.
+{
+  const stray = [];
+  const walk = (dir) => {
+    for (const e of readdirSync(dir, { withFileTypes: true })) {
+      const p = `${dir}/${e.name}`;
+      if (e.isDirectory()) walk(p);
+      else if (p.endsWith('.html') && p !== 'dist/404.html' && /<meta name="robots" content="[^"]*noindex/.test(readFileSync(p, 'utf8'))) stray.push(p);
+    }
+  };
+  walk('dist');
+  stray.length === 0 ? ok('noindex only on 404') : fail(`noindex on real pages: ${stray.join(', ')}`);
+}
+
 // No broken internal links. Every site-relative href on every built page must
 // resolve to a file in dist/. A typo in a Markdown link is otherwise invisible
 // until someone clicks it.
