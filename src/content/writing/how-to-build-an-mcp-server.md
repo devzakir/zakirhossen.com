@@ -3,6 +3,7 @@ title: "How to Build an MCP Server (And the Five Things That Broke Mine)"
 metaTitle: "How to Build an MCP Server (and 5 Things That Broke Mine)"
 description: "Build a production MCP server: tool design, transports, OAuth, and the five failures that only show up once a real model starts calling it."
 date: 2026-09-09
+updated: 2026-10-07
 keyword: how to build an mcp server
 volume: 480
 difficulty: 1
@@ -26,21 +27,27 @@ Every MCP server is the same three things:
 3. **A transport** — stdio for something running on the user's machine, HTTP
    for something running on yours.
 
-Here is the smallest useful shape, in TypeScript:
+Here is the smallest useful shape, in TypeScript, using v2 of the official
+SDK (`@modelcontextprotocol/server`), the stable line since July 2026:
 
 ```ts
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { z } from "zod";
+import { McpServer } from "@modelcontextprotocol/server";
+import { StdioServerTransport } from "@modelcontextprotocol/server/stdio";
+import * as z from "zod/v4";
 
 const server = new McpServer({ name: "my-server", version: "1.0.0" });
 
-server.tool(
+server.registerTool(
   "list_accounts",
-  "List the social accounts this user can post to. Call this before scheduling anything so you use real account ids.",
-  {},
-  async () => {
-    const accounts = await db.accounts.findMany();
+  {
+    description:
+      "List the social accounts this user can post to. Call this before scheduling anything so you use real account ids.",
+    inputSchema: z.object({
+      platform: z.string().optional().describe("Only accounts on this platform, e.g. linkedin"),
+    }),
+  },
+  async ({ platform }) => {
+    const accounts = await db.accounts.findMany({ where: platform ? { platform } : {} });
     return {
       content: [{ type: "text", text: JSON.stringify(accounts) }],
     };
@@ -49,6 +56,13 @@ server.tool(
 
 await server.connect(new StdioServerTransport());
 ```
+
+The SDK turns the Zod schema into the JSON Schema the model sees, and it
+rejects arguments that do not match before your handler runs. Two notes from
+the SDK docs: over stdio, stdout is the protocol channel, so log with
+`console.error`, never `console.log`. And if you are still on v1
+(`@modelcontextprotocol/sdk`), the imports and some method names differ, so
+follow the v1 docs rather than this snippet.
 
 That runs. Now here is what goes wrong.
 
