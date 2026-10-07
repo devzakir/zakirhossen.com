@@ -10,7 +10,7 @@ tags: [claude code, code review, ai coding agents]
 ---
 
 I build my products with Claude Code every day, and I ship alone. Nobody
-else reads my diffs. So review is the step I cannot skip, and
+else reads the diffs on my own products. So review is the step I cannot skip, and
 it is also the step where an agent is most tempted to tell me what I want to
 hear.
 
@@ -26,13 +26,14 @@ which came from things that went wrong.
 |---|---|---|---|
 | `/code-review` | Your machine, as a background subagent | Your current diff, a branch, a path or a PR | Any Claude Code user |
 | `/code-review ultra` (ultrareview) | Anthropic's cloud, many agents | Your branch or a GitHub PR | claude.ai sign-in; research preview |
-| Code Review (managed) | Anthropic's cloud, via a GitHub App | Every PR, automatically | Team and Enterprise; research preview |
+| Code Review (managed) | Anthropic's cloud, via a GitHub App | PRs in the repos you pick, automatically or on request | Team and Enterprise; research preview |
 | Claude Code GitHub Actions | Your own CI runners | Whatever your workflow tells it to | Anyone with an API key or subscription token |
 
 Two related commands are worth knowing. `/security-review` checks the diff
 between your branch and the default branch on `origin` for security problems
 such as injection, auth issues and data exposure. `/simplify` looks for
-cleanup only: reuse, simplification, efficiency. The docs are explicit that
+cleanup only: reuse, simplification, efficiency, and whether the change sits
+at the right level of abstraction. The docs are explicit that
 `/simplify` does not look for correctness bugs. If you want bugs found, use
 `/code-review`.
 
@@ -55,17 +56,18 @@ The parts that matter in practice:
   one you typed, even from an earlier session.
 - **It runs in the background** as a subagent with its own context window, so
   it does not fill up the conversation you are working in.
-- **`--fix` applies the findings** to your working tree. Those edits happen
-  outside your session's checkpoints, so `/rewind` will not undo them. Commit
-  before you run it, and use git to back out.
+- **`--fix` applies the findings** to your working tree. When the review
+  runs in the background (the default), those edits happen outside your
+  session's checkpoints, so `/rewind` will not undo them. Commit before you
+  run it, and use git to back out.
 - **`--comment` posts the findings** on a GitHub pull request as inline
   comments.
 - **It follows your `CLAUDE.md`.** It does not read `REVIEW.md` (more on that
   below). If you want a local review to enforce a rule, the rule has to be in
   `CLAUDE.md`.
 
-This is the one to run on every change before you commit. It costs nothing
-extra to start and does not need GitHub.
+This is the one to run on every change before you commit. It needs no setup
+and no GitHub App.
 
 ### 2. Ultrareview, in the cloud
 
@@ -86,8 +88,8 @@ Limits worth knowing before you plan around it:
 - It needs a claude.ai sign-in. It does not run on Amazon Bedrock, Google
   Cloud's Agent Platform or Microsoft Foundry, or for organisations with Zero
   Data Retention.
-- It is a research preview. Pro and Max include a few free runs, and after
-  that it uses paid usage credits.
+- It is a research preview. Pro and Max accounts get three free runs, once.
+  After that it uses paid usage credits.
 - Claude never starts it on its own. You have to type it.
 - For CI, there is a `claude ultrareview` subcommand that waits for the
   findings and prints them.
@@ -121,9 +123,10 @@ push multiplies that by the number of pushes, so manual mode with
 
 If you want Claude in your own CI instead of Anthropic's service, run
 `/install-github-app` inside Claude Code. It installs the GitHub App, stores
-your key as a repository secret, and opens a pull request with the workflow
-file. After that, you can mention `@claude` in a PR or issue to get a review
-or a change. This gives you the most control and the most setup.
+your key as a repository secret, and pushes a branch with the workflow file.
+GitHub then opens with a pull request ready for you to create. Merge it, and
+you can mention `@claude` in a PR or issue to get a review or a change.
+This gives you the most control and the most setup.
 
 ## CLAUDE.md or REVIEW.md
 
@@ -141,7 +144,8 @@ and **not** `REVIEW.md`. If you use both, rules that must apply everywhere go
 in `CLAUDE.md`.
 
 Here is the kind of `REVIEW.md` I would write for a Laravel and Inertia app.
-The rules come from the instructions I keep for my own Laravel projects:
+Most of the rules come from the instructions I keep for my own Laravel
+projects:
 
 ```markdown
 # Review instructions
@@ -177,13 +181,14 @@ Build, type check, tests. Do this before asking any reviewer, human or
 agent, to read the diff. A review of code that does not compile wastes
 everyone's time, and a model will happily review it anyway.
 
-### Use a different model as the reviewer
+### Do not let the author approve its own work
 
-Claude Code writes most of my code. A different model, Codex, reviews the
-diff before it merges. In my experience the author model is more likely to
-say its own diff looks fine. A model with different training has different
-opinions, and it catches things the author missed in a way that asking the
-author to re-read its work does not. I wrote more about that split in
+The session that wrote the code already believes it is right. In my
+experience, it is more likely to say its own diff looks fine. So the review
+should come from somewhere else. When I run an implementation plan, a fresh
+reviewer agent, with its own context, checks each task before the next one
+starts. A different model, such as Codex, goes one step further: different
+training, different blind spots. I compared the two in
 [Claude Code vs Codex](/writing/claude-code-vs-codex/).
 
 ### Reproduce every finding before you act on it
@@ -222,14 +227,16 @@ comments and the one that matters gets lost.
 
 ### Check facts by hand
 
-No reviewer, built-in or not, checks whether a statement is still true. A
-help page on one of my products told users to "export the result as a PDF"
-for months. There was no PDF export. On a comparison page, five of eleven
-competitor prices had drifted since I wrote them. Both kinds of problem
-passed every code review, because neither is a code problem.
+Code reviewers check code. They do not check whether a sentence on your
+site is still true. A free tool page on JuggleHire told users to "export the
+scorecard as a PDF". The tool only offered copy and a `.txt` download. On a
+pricing comparison page, five of eleven competitor prices had changed since
+the page was written. Neither is a code problem, so a code review would not
+catch either.
 
 Prices, limits, feature claims and tutorial steps get checked against the
-real source, by a person, every time.
+real source before they ship: the live pricing page, the real tool, the
+current docs.
 
 ### Let a human own the merge
 
@@ -249,5 +256,5 @@ not the same as having approval.
 - **You want it in your own CI:** GitHub Actions through `/install-github-app`.
 
 And whichever you pick, the last reviewer is you. The built-in reviewers are
-good at "does this code do what it says". Only you can check that what it
-says is true.
+good at "does this code do what it says". Checking that what it says is true
+is still your job.
