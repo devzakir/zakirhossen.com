@@ -217,7 +217,7 @@ export const content = {
       {
         title: 'Building',
         items: [
-          'Growing JuggleHire, my recruitment software for small teams. The current work is candidate sourcing and outreach, because tracking applicants is not much use to a team that gets none.',
+          'Growing JuggleHire, my recruitment software for small teams. Talking to customers every week and shipping what they ask for, not what I find interesting.',
           'Running Schedule & Chill as a free product: a social media scheduler your AI tools can post through. Its MCP server has been on the official MCP Registry since September 2026.',
           'Keeping ShipTell live alongside both.',
         ],
