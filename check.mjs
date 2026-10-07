@@ -232,6 +232,29 @@ for (const slug of articles) {
     : fail(`/writing/${slug}/ not linked from the homepage — it is two hops from the only crawled page`);
 }
 
+// Snippet budget on every built page. Google cuts a <title> at about 60
+// characters and a description at about 155; past that the part people read
+// is chosen for you. The brand suffix is dropped because Google appends it.
+{
+  const pages = [];
+  const walk = (dir) => {
+    for (const e of readdirSync(dir, { withFileTypes: true })) {
+      const p = `${dir}/${e.name}`;
+      if (e.isDirectory()) walk(p);
+      else if (e.name.endsWith('.html')) pages.push(p);
+    }
+  };
+  walk('dist');
+  const decode = (t) => t.replace(/&amp;/g, '&').replace(/&#39;/g, "'").replace(/&quot;/g, '"');
+  for (const p of pages) {
+    const page = readFileSync(p, 'utf8');
+    const t = decode(page.match(/<title>([^<]*)<\/title>/)?.[1] ?? '');
+    const d = decode(page.match(/<meta name="description" content="([^"]*)"/)?.[1] ?? '');
+    t.length > 0 && t.length <= 60 ? ok(`${p} title ${t.length} chars`) : fail(`${p} title is ${t.length} chars: ${t}`);
+    d.length > 0 && d.length <= 155 ? ok(`${p} description ${d.length} chars`) : fail(`${p} description is ${d.length} chars`);
+  }
+}
+
 // IndexNow key file must ship, or every submission fails verification (403).
 const keyFiles = readdirSync('dist').filter((f) => /^[0-9a-f]{32}\.txt$/.test(f));
 keyFiles.length === 1 ? ok(`IndexNow key file: ${keyFiles[0]}`) : fail(`expected 1 IndexNow key file in dist/, found ${keyFiles.length}`);

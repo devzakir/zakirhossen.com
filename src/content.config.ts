@@ -16,8 +16,15 @@ import { glob } from 'astro/loaders';
 const writing = defineCollection({
   loader: glob({ base: './src/content/writing', pattern: '**/*.md' }),
   schema: z.object({
+    /** The on-page H1. Can be long; it is not what Google shows. */
     title: z.string(),
-    description: z.string(),
+    /**
+     * The <title> tag, when `title` is over 60 characters. Google cuts titles
+     * at about 60 and appends the site name itself, so no "— Zakir Hossen".
+     */
+    metaTitle: z.string().max(60).optional(),
+    /** Meta description. 155 characters is where Google starts cutting. */
+    description: z.string().max(155),
     /** Publication date. Drives sort order and the Article JSON-LD. */
     date: z.coerce.date(),
     /** Set when a post is materially revised, not for typo fixes. */

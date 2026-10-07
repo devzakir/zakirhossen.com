@@ -1,6 +1,7 @@
 ---
 title: "MCP vs API: What the Difference Actually Is, From Someone Who Shipped Both"
-description: "MCP does not replace your API — it sits on top of one. Here is what changes when you add an MCP server, what does not, and when building one is a waste of time."
+metaTitle: "MCP vs API: The Real Difference, From Shipping Both"
+description: "MCP does not replace your API. It sits on top of one. What changes when you add an MCP server, what does not, and when building one is a waste of time."
 date: 2026-09-09
 keyword: mcp vs api
 volume: 1900

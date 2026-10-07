@@ -1,6 +1,7 @@
 ---
 title: "Claude Code vs Codex: What Actually Changed After Six Months of Both"
-description: "I run both daily on production Laravel and TypeScript work. Here is where each one wins, where the benchmark numbers stop being useful, and the workflow I settled on."
+metaTitle: "Claude Code vs Codex: Six Months of Using Both Daily"
+description: "I use Claude Code and Codex daily on production Laravel and TypeScript work. Where each one wins, where benchmarks stop helping, and my workflow."
 date: 2026-09-09
 keyword: claude code vs codex
 volume: 5400

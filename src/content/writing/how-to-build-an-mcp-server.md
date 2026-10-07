@@ -1,6 +1,7 @@
 ---
 title: "How to Build an MCP Server (And the Five Things That Broke Mine)"
-description: "A practical walkthrough of building a production MCP server — tool design, transports, OAuth, and the failures that only show up once a real model starts calling it."
+metaTitle: "How to Build an MCP Server (and 5 Things That Broke Mine)"
+description: "Build a production MCP server: tool design, transports, OAuth, and the five failures that only show up once a real model starts calling it."
 date: 2026-09-09
 keyword: how to build an mcp server
 volume: 480

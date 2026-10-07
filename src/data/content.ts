@@ -2,7 +2,7 @@ export const content = {
   meta: {
     title: 'Zakir Hossen — solo founder building software in the open',
     description:
-      'Bangladeshi solo founder building software products under Lomeyo, LLC — JuggleHire, Schedule & Chill, and more. Built in the open, real numbers, real failures.',
+      'Bangladeshi solo founder building JuggleHire, Schedule & Chill and ShipTell under Lomeyo, LLC. Built in the open, with real numbers and real failures.',
     url: 'https://zakirhossen.com',
     ogImage: '/og-v1.png',
     // The homepage's <lastmod> in the sitemap. Bump it when the homepage copy
@@ -117,9 +117,9 @@ export const content = {
   // `category` and `status` are not decoration — they end up in the markup.
   projects: {
     meta: {
-      title: 'Projects — software I build as a solo founder | Zakir Hossen',
+      title: 'Projects by Zakir Hossen: JuggleHire, Schedule & Chill',
       description:
-        'Every software product I build and run solo under Lomeyo, LLC — JuggleHire (recruitment software), Schedule & Chill (social scheduling API), ShipTell, and LomeyoLabs.',
+        'Software I build and run alone under Lomeyo, LLC: JuggleHire (recruitment software), Schedule & Chill (social scheduling), ShipTell and LomeyoLabs.',
     },
     // The page's <lastmod> in the sitemap. Bump it when this section changes.
     updated: '2026-07-26',
@@ -174,7 +174,7 @@ export const content = {
   // now page is worse than none.
   now: {
     meta: {
-      title: 'What I am working on now | Zakir Hossen',
+      title: 'What Zakir Hossen Is Working On Now',
       description:
         'A current snapshot of what I am focused on as a solo founder — the products I am building, what I am learning, and what I am deliberately ignoring.',
     },
