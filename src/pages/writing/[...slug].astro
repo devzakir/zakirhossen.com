@@ -3,7 +3,7 @@ import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import Footer from '../../components/Footer.astro';
 import { content } from '../../data/content';
-import { isoDate, lastModified } from '../../lib/writing';
+import { getPosts, isoDate, lastModified } from '../../lib/writing';
 
 export async function getStaticPaths() {
   const posts = await getCollection('writing', ({ data }) => !data.draft);
@@ -65,6 +65,15 @@ const schema = [
   },
 ];
 
+// "More writing": every other post, the ones sharing the most tags first.
+// Each post links every sibling, so a crawler that reaches one reaches all.
+const shared = (tags: readonly string[]) => tags.filter((t) => post.data.tags.includes(t)).length;
+const morePosts = (await getPosts())
+  .filter((p) => p.id !== post.id)
+  .map((p, i) => ({ p, score: shared(p.data.tags), i }))
+  .sort((a, b) => b.score - a.score || a.i - b.i)
+  .map(({ p }) => p);
+
 const fmt = (d: Date) =>
   d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
 ---
@@ -106,8 +115,28 @@ const fmt = (d: Date) =>
         I am a solo founder from Bangladesh building
         <a href="/projects/" class="underline underline-offset-4 hover:text-accent">software products</a>
         under Lomeyo, LLC. Everything I write comes out of shipping them.
-        <a href="/writing/" class="underline underline-offset-4 hover:text-accent">More writing</a>.
       </p>
+
+      {morePosts.length > 0 && (
+        <nav aria-labelledby="more-writing" class="mt-10">
+          <h2 id="more-writing" class="text-sm font-semibold uppercase tracking-wide text-neutral-500">More writing</h2>
+          <ul class="mt-4 space-y-4">
+            {morePosts.map((p) => (
+              <li>
+                <a href={`/writing/${p.id}/`} class="group block">
+                  <span class="font-medium transition-colors group-hover:text-accent">{p.data.title}</span>
+                  <span class="mt-1 block text-sm text-neutral-600 dark:text-neutral-400">{p.data.description}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+          <p class="mt-6 text-sm">
+            <a href="/writing/" class="underline underline-offset-4 hover:text-accent">All writing</a>
+            <span class="text-neutral-400"> · </span>
+            <a href="/writing/rss.xml" class="underline underline-offset-4 hover:text-accent">RSS</a>
+          </p>
+        </nav>
+      )}
     </aside>
   </main>
   <Footer />

@@ -3,6 +3,7 @@ title: "MCP vs API: What the Difference Actually Is, From Someone Who Shipped Bo
 metaTitle: "MCP vs API: The Real Difference, From Shipping Both"
 description: "MCP does not replace your API. It sits on top of one. What changes when you add an MCP server, what does not, and when building one is a waste of time."
 date: 2026-09-09
+updated: 2026-10-07
 keyword: mcp vs api
 volume: 1900
 difficulty: 12
@@ -76,6 +77,10 @@ None of that is protocol. It is interface design for a consumer that reasons
 instead of reading. That is the actual work, and it is why "just wrap your API"
 produces something that technically connects and practically misbehaves.
 
+If you build on Laravel, I wrote up
+[what broke on my Laravel MCP servers](/writing/laravel-mcp/), including the
+failures that only showed up in production.
+
 ## What MCP does not give you
 
 Worth saying plainly, because the marketing around this is loose:
@@ -125,7 +130,9 @@ deciding what to call in your product.
 
 For me, on a scheduler where the whole point is that an AI tool writes and
 queues the post, it clearly was. On a hiring platform where a human clicks the
-buttons, it clearly was not, and I have not built one there.
+buttons, it clearly was not. JuggleHire has no MCP server for its customers.
+The only one there is a small, read-only server my own agents use to look up
+customer records, and it passes the same test: a model decides what to call.
 
 ---
 

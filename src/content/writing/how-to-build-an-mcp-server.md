@@ -149,6 +149,10 @@ The trap is the same as everywhere else. Your form requests were written to
 return validation errors to a human looking at a form. Read them again as if a
 model is the reader.
 
+I wrote the full Laravel version separately:
+[Laravel MCP: what three production servers taught me](/writing/laravel-mcp/)
+covers the package setup and six failures that only showed up in production.
+
 ## The test that actually tells you it works
 
 Not a unit test. Connect a real client — Claude Desktop or Claude Code — and

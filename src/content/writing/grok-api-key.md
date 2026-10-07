@@ -188,6 +188,10 @@ you can benchmark it against alternatives by changing one line. Do that with
 your own prompts on your own task rather than trusting anyone's benchmark
 table, including mine.
 
+If your bot needs to take actions and not only answer, that is where tool
+calling and MCP come in. I wrote about
+[when an MCP server helps and when a plain API call is better](/writing/mcp-vs-api/).
+
 ---
 
 *I write about the tools I actually ship with — see

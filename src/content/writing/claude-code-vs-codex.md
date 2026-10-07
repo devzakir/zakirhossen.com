@@ -127,6 +127,8 @@ I stopped picking one:
 2. **Codex reviews the diff before it merges.** Different model, different
    training, genuinely different opinions — it catches things the author
    missed, in a way that asking the author to re-read its own work does not.
+   The full routine, including Claude Code's own review commands, is in
+   [Claude Code review](/writing/claude-code-review/).
 3. **I verify every factual claim myself.** Prices, limits, capabilities,
    tutorial steps. Neither agent does this and both will state a wrong thing
    confidently.
@@ -152,4 +154,5 @@ one properly and using it as autocomplete.
 
 *I build [software products](/projects/) solo under Lomeyo, LLC — a hiring
 platform, a social scheduler, and a few smaller things. Everything above comes
-out of that work.*
+out of that work. Three of them have MCP servers built in Laravel, and
+[here is what building those taught me](/writing/laravel-mcp/).*

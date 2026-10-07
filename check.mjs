@@ -309,6 +309,44 @@ for (const slug of articles) {
   missing.length === 0 ? ok(`llms.txt lists all ${want.length} pages and posts`) : fail(`llms.txt missing: ${missing.join(', ')}`);
 }
 
+// Every post links every other post ("More writing"), so a crawler that lands
+// on any one of them can reach the rest in one hop.
+for (const slug of articles) {
+  const page = readFileSync(`dist/writing/${slug}/index.html`, 'utf8');
+  const missing = articles.filter((o) => o !== slug && !page.includes(`href="/writing/${o}/"`));
+  missing.length === 0
+    ? ok(`/writing/${slug}/ links all ${articles.length - 1} other posts`)
+    : fail(`/writing/${slug}/ does not link: ${missing.join(', ')}`);
+}
+
+// No broken internal links. Every site-relative href on every built page must
+// resolve to a file in dist/. A typo in a Markdown link is otherwise invisible
+// until someone clicks it.
+{
+  const files = [];
+  const walk = (dir) => {
+    for (const e of readdirSync(dir, { withFileTypes: true })) {
+      const p = `${dir}/${e.name}`;
+      e.isDirectory() ? walk(p) : files.push(p);
+    }
+  };
+  walk('dist');
+  const exists = (href) => {
+    const path = href.split(/[?#]/)[0];
+    return existsSync(`dist${path}`) && (statSync(`dist${path}`).isFile() || existsSync(`dist${path}/index.html`));
+  };
+  const broken = [];
+  let checked = 0;
+  for (const f of files.filter((x) => x.endsWith('.html'))) {
+    for (const [, href] of readFileSync(f, 'utf8').matchAll(/href="(\/[^"]*)"/g)) {
+      if (href.startsWith('//')) continue;
+      checked++;
+      if (!exists(href)) broken.push(`${f} -> ${href}`);
+    }
+  }
+  broken.length === 0 ? ok(`internal links: ${checked} checked, 0 broken`) : fail(`broken internal links:\n  ${broken.join('\n  ')}`);
+}
+
 // IndexNow key file must ship, or every submission fails verification (403).
 const keyFiles = readdirSync('dist').filter((f) => /^[0-9a-f]{32}\.txt$/.test(f));
 keyFiles.length === 1 ? ok(`IndexNow key file: ${keyFiles[0]}`) : fail(`expected 1 IndexNow key file in dist/, found ${keyFiles.length}`);
