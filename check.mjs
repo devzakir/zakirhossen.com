@@ -319,6 +319,15 @@ for (const slug of articles) {
     : fail(`/writing/${slug}/ does not link: ${missing.join(', ')}`);
 }
 
+// Cross-site rule (2026-10-01): at most ONE link per post to a sibling
+// Lomeyo property, and only in the post body. More reads as a link scheme.
+for (const slug of articles) {
+  const page = readFileSync(`dist/writing/${slug}/index.html`, 'utf8');
+  const body = page.match(/<article>([\s\S]*?)<\/article>/)?.[1] ?? '';
+  const n = (body.match(/href="https:\/\/(?:www\.)?(?:jugglehire|schedulenchill|shiptell|lomeyo|lomeyolabs)\.com[^"]*"/g) || []).length;
+  n <= 1 ? ok(`/writing/${slug}/ ${n} cross-site link(s)`) : fail(`/writing/${slug}/ has ${n} cross-site links, max 1`);
+}
+
 // No broken internal links. Every site-relative href on every built page must
 // resolve to a file in dist/. A typo in a Markdown link is otherwise invisible
 // until someone clicks it.

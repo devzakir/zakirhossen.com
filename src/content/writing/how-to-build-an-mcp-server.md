@@ -128,7 +128,10 @@ Anything your server can do that cannot be undone needs a safe default.
 For a scheduler that means: the natural tool is `schedule_post` with a future
 timestamp, not `publish_now`. The review window costs nothing and cancel undoes
 anything wrong. `publish_now` exists but it is the explicit choice, not the
-path of least resistance.
+path of least resistance. The whole flow from the user's side, including who
+holds the OAuth tokens and how to stop a bad post, is in
+[this walkthrough of AI agents posting to social media](https://schedulenchill.com/blog/can-ai-agents-post-on-social-media)
+on the Schedule & Chill blog.
 
 Apply this generally. Ask which of your tools are irreversible, then make the
 reversible version the obvious one — in the tool name, in the description, and

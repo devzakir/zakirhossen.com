@@ -134,6 +134,10 @@ buttons, it clearly was not. JuggleHire has no MCP server for its customers.
 The only one there is a small, read-only server my own agents use to look up
 customer records, and it passes the same test: a model decides what to call.
 
+If posting is your use case too, the Schedule & Chill blog walks through
+[how an AI agent gets a post onto a social account](https://schedulenchill.com/blog/can-ai-agents-post-on-social-media),
+over MCP and over a REST API.
+
 ---
 
 *If you want the practical side, I wrote up
