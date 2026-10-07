@@ -15,6 +15,11 @@ interface Props {
   schema?: Record<string, unknown>[];
   /** Keep the page out of the index (404 and other non-canonical routes). */
   noindex?: boolean;
+  /** Social card, site-root-relative. Defaults to the site-wide card. */
+  image?: string;
+  imageAlt?: string;
+  /** Set on posts: switches og:type to article and adds the article:* tags. */
+  article?: { published: string; modified: string; tags: readonly string[] };
 }
 
 const {
@@ -23,10 +28,13 @@ const {
   path = '/',
   schema = [],
   noindex = false,
+  image = meta.ogImage,
+  imageAlt = `${identity.name} — solo founder building software in the open`,
+  article,
 } = Astro.props;
 
 const canonical = new URL(path, meta.url).href;
-const ogImage = new URL(meta.ogImage, meta.url).href;
+const ogImage = new URL(image, meta.url).href;
 
 const PERSON_ID = `${meta.url}/#person`;
 const ORG_ID = 'https://lomeyo.com/#organization';
@@ -106,7 +114,7 @@ const jsonLd = { '@context': 'https://schema.org', '@graph': graph };
       : <link rel="canonical" href={canonical} />}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={article ? 'article' : 'website'} />
     <meta property="og:site_name" content={identity.name} />
     <meta property="og:locale" content="en_US" />
     <meta property="og:title" content={title} />
@@ -115,13 +123,22 @@ const jsonLd = { '@context': 'https://schema.org', '@graph': graph };
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content={`${identity.name} — solo founder building software in the open`} />
+    <meta property="og:image:alt" content={imageAlt} />
+    {article && (
+      <>
+        <meta property="article:published_time" content={article.published} />
+        <meta property="article:modified_time" content={article.modified} />
+        <meta property="article:author" content={meta.url + '/'} />
+        {article.tags.map((t) => <meta property="article:tag" content={t} />)}
+      </>
+    )}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@devzakir" />
     <meta name="twitter:creator" content="@devzakir" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={imageAlt} />
 
     <!-- The Bangla face is preloaded on purpose. Left to layout to discover it,
          Chrome requests it at VeryHigh priority, which is the one priority

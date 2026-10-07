@@ -225,6 +225,28 @@ for (const slug of articles) {
     ? ok(`/writing/${slug}/ BlogPosting schema`)
     : fail(`/writing/${slug}/ missing BlogPosting JSON-LD`);
 
+  // The post's JSON-LD must parse, and the BlogPosting must carry an author
+  // with a name, a date pair and an image (Google's Article fields).
+  {
+    const m = page.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
+    let post;
+    try { post = (JSON.parse(m?.[1] ?? '')['@graph'] || []).find((n) => n['@type'] === 'BlogPosting'); } catch (e) { post = null; }
+    post?.author?.name && post?.datePublished && post?.dateModified && post?.image?.url
+      ? ok(`/writing/${slug}/ BlogPosting parses with author, dates and image`)
+      : fail(`/writing/${slug}/ BlogPosting JSON-LD missing author/dates/image or does not parse`);
+  }
+
+  // Social card: the post's own image must exist and be the one advertised.
+  existsSync(`dist/og/writing/${slug}.png`) && page.includes(`content="${SITE}/og/writing/${slug}.png"`)
+    ? ok(`/writing/${slug}/ has its own og:image`)
+    : fail(`/writing/${slug}/ og card missing — run node scripts/og-images.mjs`);
+  page.includes('property="og:type" content="article"') && page.includes('property="article:published_time"')
+    ? ok(`/writing/${slug}/ og:type article + published_time`)
+    : fail(`/writing/${slug}/ is not marked up as an article for social cards`);
+  page.includes('rel="author"')
+    ? ok(`/writing/${slug}/ visible author link`)
+    : fail(`/writing/${slug}/ byline has no rel=author link`);
+
   sitemap.includes(url)
     ? ok(`/writing/${slug}/ in sitemap`)
     : fail(`/writing/${slug}/ missing from sitemap`);
