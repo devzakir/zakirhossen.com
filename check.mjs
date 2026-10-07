@@ -300,6 +300,15 @@ for (const slug of articles) {
   html.includes('type="application/rss+xml"') ? ok('RSS advertised in <head>') : fail('no <link rel="alternate"> for the RSS feed');
 }
 
+// llms.txt is generated from the same data as the pages. It must list every
+// post and every page, or AI tools reading it never learn the post exists.
+{
+  const llms = existsSync('dist/llms.txt') ? readFileSync('dist/llms.txt', 'utf8') : '';
+  const want = ['/', '/projects/', '/now/', '/writing/', ...articles.map((a) => `/writing/${a}/`)];
+  const missing = want.filter((p) => !llms.includes(`(${SITE}${p})`));
+  missing.length === 0 ? ok(`llms.txt lists all ${want.length} pages and posts`) : fail(`llms.txt missing: ${missing.join(', ')}`);
+}
+
 // IndexNow key file must ship, or every submission fails verification (403).
 const keyFiles = readdirSync('dist').filter((f) => /^[0-9a-f]{32}\.txt$/.test(f));
 keyFiles.length === 1 ? ok(`IndexNow key file: ${keyFiles[0]}`) : fail(`expected 1 IndexNow key file in dist/, found ${keyFiles.length}`);

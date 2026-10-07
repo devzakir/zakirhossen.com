@@ -146,7 +146,7 @@ export const content = {
         facts: [
           'First public launch on Product Hunt in February 2024, with two more launches in 2026.',
           'A public jobs board at jugglehire.com/jobs, shipped September 2026.',
-          'A small, read-only MCP server built with Laravel MCP that my own agents use to look up customers.',
+          'A small internal MCP server, built with Laravel MCP, that AI agents use to look up customers (read-only).',
         ],
       },
       {
