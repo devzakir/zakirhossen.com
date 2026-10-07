@@ -286,6 +286,20 @@ for (const slug of articles) {
   }
 }
 
+// RSS feed: must parse as XML-ish, list every post, and be advertised in <head>.
+{
+  const f = 'dist/writing/rss.xml';
+  if (!existsSync(f)) {
+    fail('dist/writing/rss.xml missing');
+  } else {
+    const rss = readFileSync(f, 'utf8');
+    const missing = articles.filter((slug) => !rss.includes(`<link>${SITE}/writing/${slug}/</link>`));
+    missing.length === 0 ? ok(`RSS lists all ${articles.length} posts`) : fail(`RSS missing: ${missing.join(', ')}`);
+    rss.includes('<content:encoded><![CDATA[') ? ok('RSS carries full post text') : fail('RSS has no content:encoded');
+  }
+  html.includes('type="application/rss+xml"') ? ok('RSS advertised in <head>') : fail('no <link rel="alternate"> for the RSS feed');
+}
+
 // IndexNow key file must ship, or every submission fails verification (403).
 const keyFiles = readdirSync('dist').filter((f) => /^[0-9a-f]{32}\.txt$/.test(f));
 keyFiles.length === 1 ? ok(`IndexNow key file: ${keyFiles[0]}`) : fail(`expected 1 IndexNow key file in dist/, found ${keyFiles.length}`);

@@ -113,6 +113,7 @@ const jsonLd = { '@context': 'https://schema.org', '@graph': graph };
       ? <meta name="robots" content="noindex, follow" />
       : <link rel="canonical" href={canonical} />}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate" type="application/rss+xml" title={`${identity.name} — Writing`} href="/writing/rss.xml" />
 
     <meta property="og:type" content={article ? 'article' : 'website'} />
     <meta property="og:site_name" content={identity.name} />
