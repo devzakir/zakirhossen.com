@@ -212,6 +212,13 @@ for (const slug of articles) {
   writingIndex.includes(`href="/writing/${slug}/"`)
     ? ok(`/writing/${slug}/ linked from the writing index`)
     : fail(`/writing/${slug}/ is orphaned — nothing links to it`);
+
+  // The homepage is the page Google actually crawls. A post reachable only
+  // through /writing/ sat at "URL is unknown to Google" for weeks while the
+  // homepage was indexed, so every post must be one hop from it.
+  html.includes(`href="/writing/${slug}/"`)
+    ? ok(`/writing/${slug}/ linked from the homepage`)
+    : fail(`/writing/${slug}/ not linked from the homepage — it is two hops from the only crawled page`);
 }
 
 // IndexNow key file must ship, or every submission fails verification (403).

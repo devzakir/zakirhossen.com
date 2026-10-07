@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { getPosts } from '../../lib/writing';
 import Layout from '../../layouts/Layout.astro';
 import Footer from '../../components/Footer.astro';
 import { content } from '../../data/content';
@@ -7,9 +7,7 @@ import { content } from '../../data/content';
 const { meta, identity } = content;
 const PERSON_ID = `${meta.url}/#person`;
 
-const posts = (await getCollection('writing', ({ data }) => !data.draft)).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
-);
+const posts = await getPosts();
 
 const title = 'Writing — Zakir Hossen';
 const description =

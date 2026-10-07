@@ -1,0 +1,29 @@
+---
+import { getPosts } from '../lib/writing';
+
+// The homepage is the page Google crawls most often (every sibling site's
+// footer links here). On 2026-10-01 the posts were still "URL is unknown to
+// Google" while this page was indexed, because the only path to them went
+// through /writing/, which Google had not crawled either. Listing every post
+// here in plain <a href> gives each one a link from a page Google already
+// visits. check.mjs fails the build if a post is missing from this list.
+const posts = await getPosts();
+---
+{posts.length > 0 && (
+  <section class="mx-auto max-w-2xl px-6 py-16" aria-labelledby="writing-heading">
+    <h2 id="writing-heading" class="mb-6 text-sm font-semibold uppercase tracking-wide text-neutral-500" lang="en">Writing</h2>
+    <ul class="space-y-6">
+      {posts.map((post) => (
+        <li>
+          <a href={`/writing/${post.id}/`} class="group block" lang="en">
+            <span class="font-semibold transition-colors group-hover:text-accent">{post.data.title}</span>
+            <span class="mt-1 block text-neutral-600 dark:text-neutral-400">{post.data.description}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <p class="mt-6 text-sm text-neutral-500" lang="en">
+      <a href="/writing/" class="text-accent underline-offset-2 hover:underline">All writing</a>
+    </p>
+  </section>
+)}
