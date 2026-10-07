@@ -103,7 +103,7 @@ class GetAccounts extends Tool
 }
 ```
 
-Three details in there came from production, not from the docs:
+Three details in there matter more than they look:
 
 1. **The description tells the model what to do next.** "Call this before
    scheduling anything" is an instruction. The description is the only prompt
@@ -230,11 +230,14 @@ matches nothing, and the middleware is quietly added to the end of the list,
 which looks like the fix and changes nothing. Check with `curl -i` that the
 header is really there.
 
-### 6. The model believed a number I had capped
+### 6. A capped list looked like the whole list
 
 JuggleHire's internal server has a tool that lists customers. It returned at
-most 50 rows and did not say so. An agent asked how many customers there were
-and answered "50".
+most 50 rows and did not say so, and production has far more customers than
+that. An agent that counted the rows got 50, and nothing in the response told
+it the real number was much higher. I ended up writing a warning into my own
+notes: never quote that number as a total. The fix belongs in the tool, not
+in my notes.
 
 A model cannot know a list was cut unless you tell it. Any tool that limits
 results should return the total and say the list is partial:
