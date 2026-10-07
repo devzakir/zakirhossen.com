@@ -32,6 +32,9 @@ export const content = {
       'Building in public',
       'Product-led growth',
       'Software engineering',
+      'Model Context Protocol (MCP)',
+      'Claude Code',
+      'AI coding agents',
     ],
     sameAs: [
       'https://www.linkedin.com/in/devzakir',

@@ -32,6 +32,20 @@ const PERSON_ID = `${meta.url}/#person`;
 const ORG_ID = 'https://lomeyo.com/#organization';
 const SITE_ID = `${meta.url}/#website`;
 
+// One Organization node per product, founded by the Person. The @id is the
+// one each product site already declares on its own homepage
+// (jugglehire.com/#organization and so on), so a crawler that reads both pages
+// merges them into one entity instead of two unrelated "JuggleHire"s. This is
+// the edge that lets a search engine answer "who built JuggleHire?".
+const productOrgs = content.projects.items.map((p) => ({
+  '@type': 'Organization',
+  '@id': `${p.href}/#organization`,
+  name: p.name,
+  url: p.href,
+  founder: { '@id': PERSON_ID },
+  parentOrganization: { '@id': ORG_ID },
+}));
+
 // One @graph for the whole site: the Person is the entity we want search
 // engines and LLMs to resolve, and every page points back at the same @id so
 // they accumulate into one identity instead of N disconnected pages.
@@ -63,7 +77,9 @@ const graph = [
     url: 'https://lomeyo.com',
     founder: { '@id': PERSON_ID },
     employee: { '@id': PERSON_ID },
+    subOrganization: productOrgs.map((o) => ({ '@id': o['@id'] })),
   },
+  ...productOrgs,
   {
     '@type': 'WebSite',
     '@id': SITE_ID,

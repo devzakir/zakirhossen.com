@@ -147,6 +147,15 @@ for (const [file, path] of [
     types.includes(t) ? ok(`${path} JSON-LD: ${t}`) : fail(`${path} JSON-LD missing ${t}`);
   }
 
+  // Each product must resolve to an Organization founded by this Person, under
+  // the same @id the product site uses for itself.
+  for (const host of ['jugglehire.com', 'schedulenchill.com', 'shiptell.com']) {
+    const org = (data['@graph'] || []).find((n) => n['@id'] === `https://${host}/#organization`);
+    org?.founder?.['@id'] === `${SITE}/#person`
+      ? ok(`${path} JSON-LD: ${host} founded by the Person`)
+      : fail(`${path} JSON-LD: no ${host} Organization with founder = the Person`);
+  }
+
   const person = (data['@graph'] || []).find((n) => n['@type'] === 'Person');
   (person?.sameAs?.length ?? 0) >= 5
     ? ok(`${path} JSON-LD: Person.sameAs (${person.sameAs.length} profiles)`)
