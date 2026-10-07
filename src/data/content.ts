@@ -210,23 +210,30 @@ export const content = {
         'A current snapshot of what I am focused on as a solo founder — the products I am building, what I am learning, and what I am deliberately ignoring.',
     },
     heading: 'What I am doing now',
-    updated: '2026-07-26',
+    updated: '2026-10-07',
     intro:
       'This is a now page — a snapshot of what actually has my attention today, not a list of everything I have ever done. I update it when the focus genuinely changes.',
     sections: [
       {
         title: 'Building',
         items: [
-          'Growing JuggleHire — recruitment software for small teams. Talking to customers every week and shipping what they ask for, not what I find interesting.',
-          'Running Schedule & Chill and ShipTell as live products alongside it.',
+          'Growing JuggleHire, my recruitment software for small teams. The current work is candidate sourcing and outreach, because tracking applicants is not much use to a team that gets none.',
+          'Running Schedule & Chill as a free product: a social media scheduler your AI tools can post through. Its MCP server has been on the official MCP Registry since September 2026.',
+          'Keeping ShipTell live alongside both.',
+        ],
+      },
+      {
+        title: 'Writing',
+        items: [
+          'Writing up what I learn shipping MCP servers and working with AI coding agents every day: what broke, what I changed, and what the docs leave out.',
         ],
       },
       {
         title: 'Distribution',
         items: [
-          'SEO and content as the primary channel — ranking in Google and in AI search engines like ChatGPT, Perplexity, and Claude.',
+          'SEO and content as the primary channel, on every one of my sites, every week. Ranking in Google and in AI search engines like ChatGPT, Perplexity and Claude.',
           'Building in public on LinkedIn and X in English, and on YouTube and Facebook in Bangla.',
-          'Cold email and paid ads are deliberately off the table. Time is the constraint, so focus beats breadth.',
+          'One channel at a time. Time is the constraint, so focus beats breadth.',
         ],
       },
       {
