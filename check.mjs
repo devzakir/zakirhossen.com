@@ -162,6 +162,17 @@ for (const [file, path] of [
     : fail(`${path} canonical wrong — expected ${expected}`);
 }
 
+// Every sitemap URL carries a real <lastmod>. Without it Google has no signal
+// to re-crawl, and on a low-authority domain that means never.
+{
+  const sm = readFileSync('dist/sitemap-0.xml', 'utf8');
+  const urls = (sm.match(/<url>/g) || []).length;
+  const dated = (sm.match(/<lastmod>\d{4}-\d{2}-\d{2}T/g) || []).length;
+  urls > 0 && urls === dated
+    ? ok(`sitemap: all ${urls} URLs have <lastmod>`)
+    : fail(`sitemap: ${dated} of ${urls} URLs have <lastmod>`);
+}
+
 // Every page must be reachable from every other page (internal linking).
 for (const f of ['dist/index.html', 'dist/now/index.html', 'dist/projects/index.html', 'dist/writing/index.html']) {
   const page = readFileSync(f, 'utf8');

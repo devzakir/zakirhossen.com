@@ -5,6 +5,9 @@ export const content = {
       'Bangladeshi solo founder building software products under Lomeyo, LLC — JuggleHire, Schedule & Chill, and more. Built in the open, real numbers, real failures.',
     url: 'https://zakirhossen.com',
     ogImage: '/og-v1.png',
+    // The homepage's <lastmod> in the sitemap. Bump it when the homepage copy
+    // changes. New posts bump it on their own (the newest post date wins).
+    updated: '2026-10-07',
   },
 
   // Machine-readable identity. Feeds the Person JSON-LD — the thing Google's
@@ -118,6 +121,8 @@ export const content = {
       description:
         'Every software product I build and run solo under Lomeyo, LLC — JuggleHire (recruitment software), Schedule & Chill (social scheduling API), ShipTell, and LomeyoLabs.',
     },
+    // The page's <lastmod> in the sitemap. Bump it when this section changes.
+    updated: '2026-07-26',
     heading: 'Projects',
     intro:
       "Everything here is built, shipped, and supported by one person — me. No team, no funding, no outside investors. Each one is a real product with real customers, not a side experiment. I write about what works and what doesn't as I go.",
