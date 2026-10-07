@@ -78,7 +78,7 @@ export const content = {
       },
       {
         name: 'Schedule & Chill',
-        descEn: 'A social scheduling API for developers and AI agents. Buffer for the AI era.',
+        descEn: 'A free social media scheduler your AI tools can post through, by MCP server or REST API.',
         href: 'https://schedulenchill.com',
       },
     ],
@@ -125,10 +125,14 @@ export const content = {
         'Software I build and run alone under Lomeyo, LLC: JuggleHire (recruitment software), Schedule & Chill (social scheduling), ShipTell and LomeyoLabs.',
     },
     // The page's <lastmod> in the sitemap. Bump it when this section changes.
-    updated: '2026-07-26',
+    updated: '2026-10-07',
     heading: 'Projects',
+    // Every fact below comes from the product's own facts file in the shared
+    // context repo (jugglehire.md, snchill.md, shiptell.md, lomeyo.md) or from
+    // the live product site. No prices here: they change, and they belong on
+    // the product sites.
     intro:
-      "Everything here is built, shipped, and supported by one person — me. No team, no funding, no outside investors. Each one is a real product with real customers, not a side experiment. I write about what works and what doesn't as I go.",
+      'Everything here is built, shipped and supported by me. No team, no funding, no outside investors. Each one is live in production, and I write about what works and what does not as I go.',
     items: [
       {
         name: 'JuggleHire',
@@ -136,39 +140,63 @@ export const content = {
         category: 'Recruitment software',
         status: 'Live — main product',
         descEn:
-          'Simple applicant tracking and recruitment software for small teams and startups. Post jobs, build a branded career page, screen candidates, and hire without an enterprise ATS. This is where most of my working hours go, and the product I share the most numbers about.',
+          'Recruitment software for small hiring teams. Post jobs, run a branded career page, move candidates through a pipeline, schedule interviews and send offer letters for e-signature. This is where most of my working hours go, and the product I share the most numbers about.',
+        role: 'Founder. Development started in July 2023; I have run it alone since November 2025.',
+        stack: 'Laravel 13, PHP 8.4, Inertia and React 19, Mantine UI, Tailwind CSS. Hosted on Laravel Cloud.',
+        facts: [
+          'First public launch on Product Hunt in February 2024, with two more launches in 2026.',
+          'A public jobs board at jugglehire.com/jobs, shipped September 2026.',
+          'A small, read-only MCP server built with Laravel MCP that my own agents use to look up customers.',
+        ],
       },
       {
         name: 'Schedule & Chill',
         href: 'https://schedulenchill.com',
-        category: 'Developer API',
-        status: 'Live',
+        category: 'Social media scheduling',
+        status: 'Live — free',
         descEn:
-          'A social media scheduling API for developers and AI agents. Instead of a dashboard you log into, it is an API and MCP server your code or your agent calls directly. Buffer for the AI era.',
+          'A free social media scheduler your AI tools can post through. Write a post, add media, then schedule it or publish it now, from the dashboard or from Claude, Cursor or any other MCP client. LinkedIn, YouTube, Bluesky and Mastodon are live.',
+        role: 'Founder. I built it and run it alone.',
+        stack: 'Laravel 13, PHP 8.4, Inertia and React 19, Mantine UI, Tailwind CSS v4.',
+        facts: [
+          'An MCP server with 22 tools, 4 resources and 2 prompts, reachable with an API token or over OAuth 2.1.',
+          'Listed on the official MCP Registry since September 2026.',
+          'A full REST API with the same capabilities as the dashboard, and a media library for images, PDFs and video.',
+        ],
       },
       {
         name: 'ShipTell',
         href: 'https://shiptell.com',
-        category: 'Customer communication',
+        category: 'Customer support for software teams',
         status: 'Live',
         descEn:
-          'Customer communication for developers — changelogs, product updates, and release notes that reach the people who actually use what you ship.',
+          'Customer support built on top of your GitHub activity. It writes changelogs from pull requests and commits, runs a shared inbox, live chat and email tickets, and keeps a public roadmap that tells voters when their request ships.',
+        role: 'Founder. I built it and run it alone.',
+        stack: 'Laravel 13, PHP 8.4, Inertia, React 19 and TypeScript, Laravel Reverb for live chat, OpenAI models through the Laravel AI SDK.',
+        facts: [
+          'An MCP server for changelogs, the inbox, the knowledge base and the roadmap.',
+        ],
       },
       {
         name: 'LomeyoLabs',
         href: 'https://lomeyolabs.com',
-        category: 'Templates & tools',
-        status: 'Live',
+        category: 'Templates & self-hosted software',
+        status: 'Live — maintenance mode',
         descEn:
-          'Web templates and developer tools. The oldest thing I run, and the business that funded everything after it.',
+          'Web templates, tools and self-hosted software sold as one-time purchases. It used to be called Templatecookie. The oldest thing I run, and the business that funded everything after it.',
+        role: 'Founder.',
+        stack: '',
+        facts: ['40+ products and 1,300+ sales on Envato\'s CodeCanyon marketplace.'],
       },
     ],
     parent: {
       name: 'Lomeyo, LLC',
       href: 'https://lomeyo.com',
       descEn:
-        'The US company behind every product above. 100% bootstrapped — no funding, no co-founder, no shortcuts.',
+        'The US company (a Delaware LLC) behind every product above, run from Bangladesh. 100% bootstrapped: no funding, no co-founder, no shortcuts.',
     },
+    howIBuild:
+      'All three SaaS products run on the same stack, Laravel with Inertia and React, and I build them with AI coding agents every day. Three of them have MCP servers. What I learn doing that ends up in the writing:',
   },
 
   // ---- /now ---------------------------------------------------------------

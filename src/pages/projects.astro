@@ -2,9 +2,15 @@
 import Layout from '../layouts/Layout.astro';
 import Footer from '../components/Footer.astro';
 import { content } from '../data/content';
+import { getPosts } from '../lib/writing';
 
 const { projects, meta } = content;
 const PERSON_ID = `${meta.url}/#person`;
+
+// Posts about how the products are built. Linking them from here gives each
+// one a link from a page Google has already indexed.
+const BUILD_TAGS = ['mcp', 'claude code', 'codex', 'ai coding agents', 'laravel'];
+const buildPosts = (await getPosts()).filter((p) => p.data.tags.some((t) => BUILD_TAGS.includes(t)));
 
 // Each product as its own SoftwareApplication, authored by the same Person
 // @id the Layout emits — that link is what ties "Zakir Hossen" to "JuggleHire"
@@ -27,9 +33,12 @@ const schema = [
           name: p.name,
           url: p.href,
           applicationCategory: 'BusinessApplication',
+          operatingSystem: 'Web',
           description: p.descEn,
           author: { '@id': PERSON_ID },
-          publisher: { '@id': 'https://lomeyo.com/#organization' },
+          // The product's own Organization node (declared in the Layout graph
+          // and on the product site), which in turn belongs to Lomeyo, LLC.
+          publisher: { '@id': `${p.href}/#organization` },
         },
       })),
     },
@@ -66,6 +75,16 @@ const schema = [
           </div>
           <p class="mt-1 text-xs uppercase tracking-wide text-accent" lang="en">{p.category}</p>
           <p class="mt-3 leading-relaxed text-neutral-600 dark:text-neutral-400" lang="en">{p.descEn}</p>
+          <dl class="mt-4 space-y-2 text-sm text-neutral-600 dark:text-neutral-400" lang="en">
+            <div><dt class="inline font-semibold text-neutral-800 dark:text-neutral-200">My role: </dt><dd class="inline">{p.role}</dd></div>
+            {p.stack && <div><dt class="inline font-semibold text-neutral-800 dark:text-neutral-200">Stack: </dt><dd class="inline">{p.stack}</dd></div>}
+            <div><dt class="inline font-semibold text-neutral-800 dark:text-neutral-200">Live at: </dt><dd class="inline"><a href={p.href} target="_blank" rel="noopener" class="text-accent underline-offset-2 hover:underline">{p.href.replace('https://', '')}</a></dd></div>
+          </dl>
+          {p.facts.length > 0 && (
+            <ul class="mt-3 list-disc space-y-1 pl-5 text-sm text-neutral-600 dark:text-neutral-400" lang="en">
+              {p.facts.map((f) => <li>{f}</li>)}
+            </ul>
+          )}
         </article>
       ))}
     </div>
@@ -76,6 +95,18 @@ const schema = [
       </h2>
       <p class="mt-1 text-neutral-600 dark:text-neutral-400" lang="en">{projects.parent.descEn}</p>
     </section>
+
+    {buildPosts.length > 0 && (
+      <section class="mt-10">
+        <h2 class="font-semibold" lang="en">How I build them</h2>
+        <p class="mt-2 text-neutral-600 dark:text-neutral-400" lang="en">{projects.howIBuild}</p>
+        <ul class="mt-3 list-disc space-y-1 pl-5 text-neutral-600 dark:text-neutral-400" lang="en">
+          {buildPosts.map((post) => (
+            <li><a href={`/writing/${post.id}/`} class="text-accent underline-offset-2 hover:underline">{post.data.title}</a></li>
+          ))}
+        </ul>
+      </section>
+    )}
 
     <p class="mt-10 text-sm text-neutral-500" lang="en">
       Want the current focus instead of the full list? See <a href="/now/" class="text-accent underline-offset-2 hover:underline">what I'm doing now</a>.
