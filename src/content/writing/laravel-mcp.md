@@ -1,7 +1,7 @@
 ---
 title: "Laravel MCP: What Three Production Servers Taught Me"
 metaTitle: "Laravel MCP: Lessons From Three Production Servers"
-description: "How to build an MCP server with the official laravel/mcp package, and the six things that broke on my three production Laravel MCP servers."
+description: "How to build an MCP server with the official laravel/mcp package, and six problems I had to fix on my three production Laravel MCP servers."
 date: 2026-10-07
 keyword: laravel mcp
 volume: 320
@@ -20,13 +20,14 @@ package. Each one sits inside a product I already had:
   that my own agents use to look up customers.
 
 The package makes the first version easy. This post covers that part
-quickly, then spends most of its time on six things that broke after the
+quickly, then spends most of its time on six problems I had to fix after the
 first version worked. They are not in the docs, and most of them are not
 bugs in the package. They come from running a Laravel app for a caller that
 is a model, not a person.
 
-One warning first: `laravel/mcp` is still a 0.x package. My servers run 0.6
-and 0.9, and the API changed between them. The code below follows the
+One warning first: `laravel/mcp` changes fast. It reached 1.0 in September
+2026. My servers still run 0.6 and 0.9. The API changed between those two,
+and it changed again in 1.0. The code below follows the
 [current Laravel docs](https://laravel.com/framework/docs/mcp). Check the docs for
 your version before copying anything.
 
@@ -106,12 +107,12 @@ class GetAccounts extends Tool
 Three details in there matter more than they look:
 
 1. **The description tells the model what to do next.** "Call this before
-   scheduling anything" is an instruction. The description is the only prompt
-   text you control inside a tool, so use it.
+   scheduling anything" is an instruction. The description is the main prompt
+   text you control in a tool, so use it.
 2. **`health`, not `is_active`.** On Schedule & Chill, `is_active` stayed
-   true for an account whose refresh token had died. A model that trusted it
-   kept scheduling into a channel that could not publish. Give the model the
-   field you would check yourself.
+   true for an account whose refresh token had died. Anything that trusted
+   it, a model included, would schedule posts into a channel that could not
+   publish. Give the model the field you would check yourself.
 3. **`#[IsReadOnly]`** tells the client the tool changes nothing. It is a
    hint, not a guarantee, but it costs one line.
 
@@ -119,7 +120,7 @@ Register the tool in the server's `$tools` array. The server class also takes
 an `#[Instructions('...')]` attribute. Mine says which tool to call first and
 which actions cannot be undone. The client receives it when it connects.
 
-## What broke
+## What I had to fix
 
 ### 1. It worked locally and returned 404 in production
 
@@ -156,10 +157,10 @@ you keep both, name them so nobody confuses them.
 ### 3. MCP routes in routes/web.php need a CSRF exception
 
 The package loads `routes/ai.php` without the `web` middleware group, so
-there is no CSRF check on those routes. On Schedule & Chill I registered the
-MCP routes in `routes/web.php` instead. That puts them inside the `web`
-group, and a POST from an AI client carries no CSRF token, so Laravel rejects
-it with a 419.
+there is no CSRF check on those routes. On Schedule & Chill the MCP routes
+live in `routes/web.php` instead. That puts them inside the `web` group, and
+a POST from an AI client carries no CSRF token, so without an exception
+Laravel rejects it with a 419.
 
 If your MCP routes live in `routes/web.php`, exclude them:
 
@@ -205,14 +206,19 @@ never call. Two rules came out of it:
 
 ### 5. The 401 had no WWW-Authenticate header
 
-The MCP authorization spec expects a 401 from your server to carry a
-`WWW-Authenticate` header that points the client to your OAuth metadata.
-`Mcp::web()` adds a middleware for it, `AddWwwAuthenticateHeader`. But
-Laravel's middleware priority list runs authentication earlier, so the 401
-was rendered before that middleware could add the header. Clients got a bare
-401 and had nowhere to go.
+The MCP authorization spec gives a server two ways to point a client to its
+OAuth metadata: a `WWW-Authenticate` header on the 401, or a well-known URL
+the client has to try on its own. Clients read the header first. Without
+it, they have to guess, and some just report that the server does not
+support OAuth.
 
-The fix moves it ahead of authentication:
+`Mcp::web()` adds a middleware for that header, `AddWwwAuthenticateHeader`.
+But Laravel's middleware priority list runs authentication earlier, so the
+401 was rendered before that middleware could add the header. Clients got a
+bare 401.
+
+`laravel/mcp` 1.0 fixes this inside the package. On 0.9 and earlier, move
+the middleware ahead of authentication yourself:
 
 ```php
 use Illuminate\Contracts\Auth\Middleware\AuthenticatesRequests;
@@ -269,9 +275,10 @@ $request->validate([
 ]);
 ```
 
-On Schedule & Chill every tool error is a JSON object with `code`, `problem`,
-`cause` and `fix`. The `fix` field is the one that matters. A model that can
-read it corrects itself without asking the human.
+On Schedule & Chill, the tools that act on posts and uploads return
+errors as a JSON object with `code`, `problem`, `cause` and `fix`. The `fix`
+field is the one that matters. A model that reads it can correct itself
+without asking the human.
 
 One more thing about errors: the error path must never throw. Error messages
 often include outside text, such as an account name or a platform's error
