@@ -36,6 +36,11 @@ const writing = defineCollection({
     /** DataForSEO keyword difficulty, 0–100, when the post was planned. */
     difficulty: z.number(),
     tags: z.array(z.string()).default([]),
+    /**
+     * Real Q&A shown on the page under "Questions". The same list becomes
+     * FAQPage JSON-LD, so the markup always matches what a reader sees.
+     */
+    faq: z.array(z.object({ q: z.string(), a: z.string() })).optional(),
     /** Hide from the index and the sitemap without deleting the file. */
     draft: z.boolean().default(false),
   }),

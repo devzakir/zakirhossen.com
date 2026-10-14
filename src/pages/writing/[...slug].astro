@@ -55,6 +55,17 @@ const schema = [
     wordCount,
     keywords: post.data.tags.join(', '),
   },
+  ...(post.data.faq?.length
+    ? [{
+        '@type': 'FAQPage',
+        '@id': `${url}#faq`,
+        mainEntity: post.data.faq.map(({ q, a }) => ({
+          '@type': 'Question',
+          name: q,
+          acceptedAnswer: { '@type': 'Answer', text: a },
+        })),
+      }]
+    : []),
   {
     '@type': 'BreadcrumbList',
     itemListElement: [
@@ -108,6 +119,20 @@ const fmt = (d: Date) =>
       <div class="prose-zakir">
         <Content />
       </div>
+
+      {post.data.faq && post.data.faq.length > 0 && (
+        <section class="mt-12" aria-labelledby="faq-heading">
+          <h2 id="faq-heading" class="text-[1.375rem] font-semibold tracking-tight">Questions</h2>
+          <dl class="mt-4 space-y-6">
+            {post.data.faq.map(({ q, a }) => (
+              <div>
+                <dt class="font-semibold">{q}</dt>
+                <dd class="mt-1 leading-relaxed text-neutral-700 dark:text-neutral-300">{a}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      )}
     </article>
 
     <aside class="mt-16 border-t border-neutral-200 pt-8 dark:border-neutral-800">

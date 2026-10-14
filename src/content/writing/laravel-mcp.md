@@ -12,7 +12,7 @@ tags: [laravel, mcp, ai agents]
 I run three MCP servers built with `laravel/mcp`, the official Laravel
 package. Each one sits inside a product I already had:
 
-- **Schedule & Chill**, a social media scheduler. Its MCP server is public:
+- **[Schedule & Chill](https://schedulenchill.com/)**, a social media scheduler. Its MCP server is public:
   22 tools, reachable with an API token or over OAuth 2.1.
 - **ShipTell**, a support and changelog tool. Its server covers changelogs,
   the inbox, the knowledge base and the roadmap.

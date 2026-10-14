@@ -3,12 +3,29 @@ title: "How to Build an MCP Server (And the Five Things That Broke Mine)"
 metaTitle: "How to Build an MCP Server (and 5 Things That Broke Mine)"
 description: "Build a production MCP server: tool design, transports, OAuth, and the five failures that only show up once a real model starts calling it."
 date: 2026-09-09
-updated: 2026-10-07
+updated: 2026-10-14
 keyword: how to build an mcp server
 volume: 480
 difficulty: 1
 tags: [mcp, tutorial, ai agents, laravel]
+faq:
+  - q: "What do I need to build an MCP server?"
+    a: "Three things: a list of tools (each with a name, a description and a JSON schema for its arguments), a handler for each tool that does the work, and a transport. A first working version takes about ten minutes with an official SDK."
+  - q: "Should I use stdio or HTTP?"
+    a: "Use stdio when the server runs on the user's machine as that user. Use HTTP when it runs on your infrastructure and serves many users. HTTP means you also need OAuth, per-user token storage, scoping and revocation."
+  - q: "Why does the model send IDs that do not exist?"
+    a: "A model invents IDs when a tool asks for one and it has no way to look it up. Add a tool that lists the real IDs, and say in the description of every tool that uses an ID to call the list tool first."
+  - q: "What should an MCP error message say?"
+    a: "It should tell the model what to do next: the value that was wrong and what a correct one looks like. A bare 422 is a dead end for a model, and at a dead end it guesses."
+  - q: "How do I test an MCP server?"
+    a: "Connect a real client such as Claude Desktop or Claude Code and give it a plain-language task that needs three or four tool calls in a row, without naming the tools. Watch which tools it calls and which arguments it guesses."
 ---
+
+**Short answer:** an MCP server is a list of tools, a handler for each tool, and a
+transport (stdio for local, HTTP for remote). The first version takes about ten
+minutes. Making a model use it correctly is the hard part, and five problems
+cause most of the pain: invented IDs, error messages written for humans, silently
+dropped arguments, irreversible actions, and OAuth for remote servers.
 
 Building an MCP server that connects is easy. There is a quickstart in every
 SDK and it works in about ten minutes.
