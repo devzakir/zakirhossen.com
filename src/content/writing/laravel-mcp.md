@@ -3,6 +3,7 @@ title: "Laravel MCP: What Three Production Servers Taught Me"
 metaTitle: "Laravel MCP: Lessons From Three Production Servers"
 description: "How to build an MCP server with the official laravel/mcp package, and six problems I had to fix on my three production Laravel MCP servers."
 date: 2026-10-07
+updated: 2026-10-14
 keyword: laravel mcp
 volume: 320
 difficulty: 6
