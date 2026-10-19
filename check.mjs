@@ -375,4 +375,26 @@ for (const slug of articles) {
 const keyFiles = readdirSync('dist').filter((f) => /^[0-9a-f]{32}\.txt$/.test(f));
 keyFiles.length === 1 ? ok(`IndexNow key file: ${keyFiles[0]}`) : fail(`expected 1 IndexNow key file in dist/, found ${keyFiles.length}`);
 
+// Host redirects (functions/_middleware.js). Every secondary host, including
+// the devzakir.pages.dev production alias, must 301 to the canonical origin
+// with path and query kept; the canonical host and per-deploy preview hosts
+// must pass through. A second host serving 200 is a full duplicate of the site.
+{
+  const { onRequest } = await import('./functions/_middleware.js');
+  const origin = new URL(SITE);
+  const passed = new Response('page', { status: 200 });
+  const run = (url) => onRequest({ request: new Request(url), next: async () => passed });
+  for (const host of ['www.zakirhossen.com', 'devzakir.com', 'devzakir.pages.dev']) {
+    const res = await run(`https://${host}/writing/laravel-mcp/?a=1`);
+    const want = `${origin.origin}/writing/laravel-mcp/?a=1`;
+    res.status === 301 && res.headers.get('location') === want
+      ? ok(`${host} 301s to ${want}`)
+      : fail(`${host} must 301 to ${want}, got ${res.status} ${res.headers.get('location')}`);
+  }
+  for (const host of [origin.host, 'a1b2c3d4.devzakir.pages.dev']) {
+    const res = await run(`https://${host}/writing/`);
+    res.status === 200 ? ok(`${host} serves the page`) : fail(`${host} must serve the page, got ${res.status}`);
+  }
+}
+
 if (process.exitCode) { console.error('\nCHECK FAILED'); } else { console.log('\nCHECK PASSED'); }

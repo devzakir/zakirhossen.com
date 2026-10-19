@@ -9,6 +9,12 @@
 // primary with path and query intact. Anything not listed falls through
 // untouched, so a new custom domain fails open (serves the site) rather than
 // redirecting somewhere unintended.
+//
+// That includes the project's own production alias, devzakir.pages.dev. Until
+// 2026-10-19 it served a full 200 copy of every page with no X-Robots-Tag, a
+// second public host for the same content. Per-deployment preview hosts
+// (<hash>.devzakir.pages.dev) are NOT listed: Pages already sends them
+// `X-Robots-Tag: noindex`, and a deploy is verified against them.
 
 const PRIMARY = 'zakirhossen.com';
 
@@ -20,6 +26,7 @@ const REDIRECT_HOSTS = new Set([
   'www.zakirh.com',
   'zakirhq.com',
   'www.zakirhq.com',
+  'devzakir.pages.dev',
 ]);
 
 const YEAR = 31536000;
