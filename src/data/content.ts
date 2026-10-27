@@ -210,7 +210,7 @@ export const content = {
         'A current snapshot of what I am focused on as a solo founder — the products I am building, what I am learning, and what I am deliberately ignoring.',
     },
     heading: 'What I am doing now',
-    updated: '2026-10-07',
+    updated: '2026-10-28',
     intro:
       'This is a now page — a snapshot of what actually has my attention today, not a list of everything I have ever done. I update it when the focus genuinely changes.',
     sections: [
@@ -226,6 +226,16 @@ export const content = {
         title: 'Writing',
         items: [
           'Writing up what I learn shipping MCP servers and working with AI coding agents every day: what broke, what I changed, and what the docs leave out.',
+          // An item can be a list of parts, so a sentence can carry a link.
+          // /now/ is one of the few pages Google has indexed, so a link from
+          // here is how a post gets found.
+          [
+            'Recent: ',
+            { label: 'Claude Code vs Codex', href: '/writing/claude-code-vs-codex/' },
+            ', after six months of using both every day, and ',
+            { label: 'Claude Code review', href: '/writing/claude-code-review/' },
+            ', how I check the code an AI agent writes before it ships.',
+          ],
         ],
       },
       {
