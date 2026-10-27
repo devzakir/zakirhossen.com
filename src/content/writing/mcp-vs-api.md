@@ -90,7 +90,9 @@ Worth saying plainly, because the marketing around this is loose:
 - **It does not make a model reliable.** It gives the model a well-described
   door. It will still walk through the wrong one sometimes.
 - **It is not required for an AI feature.** If your code decides what to call
-  and the model only writes text, you want a normal API call, not MCP.
+  and the model only writes text, you want a normal API call, not MCP. The
+  Telegram bot in [how to get a Grok API key](/writing/grok-api-key/) is built
+  that way: one chat completion call per message, no MCP server.
 
 ## When to build one, and when not to
 

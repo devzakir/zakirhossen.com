@@ -186,7 +186,9 @@ genuine differentiator.
 If you need general reasoning or coding, the OpenAI-compatible base URL means
 you can benchmark it against alternatives by changing one line. Do that with
 your own prompts on your own task rather than trusting anyone's benchmark
-table, including mine.
+table, including mine. The same is true of coding agents. In
+[Claude Code vs Codex](/writing/claude-code-vs-codex/) I explain why a
+one-point gap on a benchmark stopped deciding anything for me.
 
 If your bot needs to take actions and not only answer, that is where tool
 calling and MCP come in. I wrote about
