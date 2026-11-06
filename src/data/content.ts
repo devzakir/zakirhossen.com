@@ -7,7 +7,7 @@ export const content = {
     ogImage: '/og-v1.png',
     // The homepage's <lastmod> in the sitemap. Bump it when the homepage copy
     // changes. New posts bump it on their own (the newest post date wins).
-    updated: '2026-10-07',
+    updated: '2026-11-06',
   },
 
   // Machine-readable identity. Feeds the Person JSON-LD — the thing Google's
@@ -90,6 +90,7 @@ export const content = {
     also: [
       { name: 'ShipTell', href: 'https://shiptell.com' },
       { name: 'LomeyoLabs', href: 'https://lomeyolabs.com' },
+      { name: 'Sohoj Biye', href: 'https://sohojbiyebd.com' },
     ],
   },
   story: {
@@ -122,10 +123,10 @@ export const content = {
     meta: {
       title: 'Projects by Zakir Hossen: JuggleHire, Schedule & Chill',
       description:
-        'Software I build and run alone under Lomeyo, LLC: JuggleHire (recruitment software), Schedule & Chill (social scheduling), ShipTell and LomeyoLabs.',
+        'Software I build and run alone: JuggleHire, Schedule & Chill, ShipTell and LomeyoLabs under Lomeyo, LLC, plus Sohoj Biye, a free Bangla biodata maker.',
     },
     // The page's <lastmod> in the sitemap. Bump it when this section changes.
-    updated: '2026-10-07',
+    updated: '2026-11-06',
     heading: 'Projects',
     // Every fact below comes from the product's own facts file in the shared
     // context repo (jugglehire.md, snchill.md, shiptell.md, lomeyo.md) or from
@@ -188,12 +189,29 @@ export const content = {
         stack: '',
         facts: ['40+ products and 1,300+ sales on Envato\'s CodeCanyon marketplace.'],
       },
+      {
+        // Not a Lomeyo, LLC product: `independent` keeps the parentOrganization
+        // edge to lomeyo.com out of the JSON-LD for this entry.
+        name: 'Sohoj Biye',
+        href: 'https://sohojbiyebd.com',
+        category: 'Bangla biodata maker & matrimony listing',
+        status: 'Live — free',
+        independent: true,
+        descEn:
+          'A free Bangla marriage-biodata maker and matrimony listing for families in Bangladesh. Fill in a form, see a live A4 preview, and download it as a PDF or an image. No sign-up and no fees. Every biodata is read before it is listed, and families get in touch only through the guardian.',
+        role: 'Founder. I built it and run it alone. Live since November 2026.',
+        stack: 'React Router 8, React 19 and TypeScript on Cloudflare Workers, with Cloudflare D1.',
+        facts: [
+          'The PDF is made on the phone. Photos are never uploaded to the server.',
+          'Every page is in Bangla.',
+        ],
+      },
     ],
     parent: {
       name: 'Lomeyo, LLC',
       href: 'https://lomeyo.com',
       descEn:
-        'The US company (a Delaware LLC) behind every product above, run from Bangladesh. 100% bootstrapped: no funding, no co-founder, no shortcuts.',
+        'The US company (a Delaware LLC) behind JuggleHire, Schedule & Chill, ShipTell and LomeyoLabs, run from Bangladesh. 100% bootstrapped: no funding, no co-founder, no shortcuts.',
     },
     howIBuild:
       'All three SaaS products run on the same stack, Laravel with Inertia and React, and I build them with AI coding agents every day. Three of them have MCP servers. What I learn doing that ends up in the writing:',

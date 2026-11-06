@@ -51,7 +51,7 @@ const productOrgs = content.projects.items.map((p) => ({
   name: p.name,
   url: p.href,
   founder: { '@id': PERSON_ID },
-  parentOrganization: { '@id': ORG_ID },
+  ...('independent' in p ? {} : { parentOrganization: { '@id': ORG_ID } }),
 }));
 
 // One @graph for the whole site: the Person is the entity we want search
