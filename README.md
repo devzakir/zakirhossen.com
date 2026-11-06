@@ -9,14 +9,15 @@ Bangla-first personal site. Astro 7 + Tailwind v4, static.
 ## Build & self-check
     npm run build && npm run check
 
-## Deploy — Cloudflare Pages
-Connect the GitHub repo in the Cloudflare dashboard → Pages → Create → Connect to Git.
-- Framework preset: **Astro**
-- Build command: `npm run build`
-- Build output directory: `dist`
-- Node version: 20 (via `.node-version`)
+## Deploy — Cloudflare Pages (direct upload, NOT git)
+The Pages project `devzakir` has no Git provider (checked 2026-11-06).
+**A push deploys nothing.** Deploy by hand after the push:
 
-Push to the default branch = auto-deploy.
+    npm run build && npm run check
+    npx wrangler pages deploy dist --project-name devzakir --branch main \
+      --commit-hash "$(git rev-parse --short HEAD)"
+
+Then `npm run indexnow -- <changed URLs>`.
 
 ### Domain
 Add `devzakir.com` as a custom domain in the Pages project.
