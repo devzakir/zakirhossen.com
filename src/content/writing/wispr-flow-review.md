@@ -32,7 +32,8 @@ emails.
 ## The short answer
 
 Wispr Flow works, and I still use it. I paid for Pro for one month, in
-April 2026. Today I am on the free plan, and it covers what I do. If you write
+April 2026. Today I am on the free plan, and it covers about 80% of what I
+need. If you write
 long prompts to AI tools all day, try the free plan first.
 
 ## My numbers
@@ -92,8 +93,9 @@ said Wispr does not give custom discounts. It offered three things instead:
 - 40% off for education, veterans, non-profits, accessibility and seniors, and
   50% off for students
 
-Today the app shows the free plan. My biggest week since May was about 6,000
-words, and nothing stopped me.
+After that month I went back to the free plan. I run my products alone and keep
+business costs low, and the free plan covers about 80% of what I need. My
+biggest week since May was about 6,000 words, and nothing stopped me.
 
 ## What works
 
