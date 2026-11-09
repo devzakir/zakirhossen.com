@@ -325,7 +325,10 @@ than all the schema work did.
 ## Who this is not for
 
 If your code decides which endpoint to call and the model only writes text,
-you do not need an MCP server. A normal API call is simpler. I wrote about
+you do not need an MCP server. A normal API call is simpler. A bot that only
+answers is that case: the Telegram bot in
+[how to get a Grok API key](/writing/grok-api-key/) makes one chat completion
+call per message and has no MCP server. I wrote about
 where that line sits in [MCP vs API](/writing/mcp-vs-api/). For the
 framework-neutral version of this post, with the TypeScript SDK and the
 mistakes every MCP server makes, see
