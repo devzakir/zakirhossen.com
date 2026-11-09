@@ -38,6 +38,13 @@ const fights = [
 for (const f of fights) {
   html.includes(f) ? ok(`fight: ${f}`) : fail(`fight missing: ${f}`);
 }
+// The name entity: "Zakir Hossen" in <title> and <h1>, and the handle as visible
+// text. A handle that lives only in hrefs and JSON-LD does not help the page
+// rank for "devzakir".
+html.match(/<title>[^<]*Zakir Hossen/) ? ok('home <title> has the name') : fail('home <title> lost "Zakir Hossen"');
+html.match(/<h1[^>]*>Zakir Hossen<\/h1>/) ? ok('home <h1> is the name') : fail('home <h1> is not "Zakir Hossen"');
+html.includes('>I go by devzakir') ? ok('home shows the devzakir handle as text') : fail('home no longer shows "devzakir" as visible text');
+
 // products + both social lanes present
 for (const h of [
   'jugglehire.com',

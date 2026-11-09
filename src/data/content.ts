@@ -7,7 +7,7 @@ export const content = {
     ogImage: '/og-v1.png',
     // The homepage's <lastmod> in the sitemap. Bump it when the homepage copy
     // changes. New posts bump it on their own (the newest post date wins).
-    updated: '2026-11-06',
+    updated: '2026-11-09',
   },
 
   // Machine-readable identity. Feeds the Person JSON-LD — the thing Google's
@@ -60,6 +60,10 @@ export const content = {
   hero: {
     name: 'Zakir Hossen',
     headlineEn: 'Bangladeshi solo founder building software products in the open.',
+    // The visible half of Person.alternateName. Searching "devzakir" should land
+    // here, so the handle has to be on the page as text, not only in hrefs and
+    // JSON-LD. Every profile named here is in identity.sameAs.
+    handleEn: 'I go by devzakir on LinkedIn, X, GitHub and YouTube.',
     accentBn: 'গ্রাম থেকে, শূন্য থেকে — ধীরে, সৎভাবে, ধৈর্য ধরে।',
   },
   fights: [
