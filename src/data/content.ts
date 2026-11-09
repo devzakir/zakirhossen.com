@@ -232,7 +232,7 @@ export const content = {
         'A current snapshot of what I am focused on as a solo founder — the products I am building, what I am learning, and what I am deliberately ignoring.',
     },
     heading: 'What I am doing now',
-    updated: '2026-10-28',
+    updated: '2026-11-09',
     intro:
       'This is a now page — a snapshot of what actually has my attention today, not a list of everything I have ever done. I update it when the focus genuinely changes.',
     sections: [
@@ -257,6 +257,11 @@ export const content = {
             ', after six months of using both every day, and ',
             { label: 'Claude Code review', href: '/writing/claude-code-review/' },
             ', how I check the code an AI agent writes before it ships.',
+          ],
+          [
+            'Reviews of tools I use in real work, with my own usage numbers. The first is my ',
+            { label: 'Wispr Flow review', href: '/writing/wispr-flow-review/' },
+            ': 147,000 words dictated since January 2025, most of them into Claude Code.',
           ],
         ],
       },
