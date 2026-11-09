@@ -395,6 +395,26 @@ keyFiles.length === 1 ? ok(`IndexNow key file: ${keyFiles[0]}`) : fail(`expected
     const res = await run(`https://${host}/writing/`);
     res.status === 200 ? ok(`${host} serves the page`) : fail(`${host} must serve the page, got ${res.status}`);
   }
+
+  // /sitemap.xml is the first URL most crawlers and SEO tools try. The real
+  // file is /sitemap-index.xml, so the old path must 301 there, in one hop
+  // even from a secondary host, and the target must exist in the build.
+  for (const [from, want] of [
+    [`${origin.origin}/sitemap.xml`, `${origin.origin}/sitemap-index.xml`],
+    ['https://devzakir.com/sitemap.xml', `${origin.origin}/sitemap-index.xml`],
+  ]) {
+    const res = await run(from);
+    res.status === 301 && res.headers.get('location') === want
+      ? ok(`${from} 301s to ${want}`)
+      : fail(`${from} must 301 to ${want}, got ${res.status} ${res.headers.get('location')}`);
+  }
+  existsSync('dist/sitemap.xml')
+    ? fail('dist/sitemap.xml exists — the middleware redirect hides it, so it can never be read; remove it')
+    : ok('no dist/sitemap.xml; /sitemap.xml is the redirect only');
+  {
+    const res = await run(`${origin.origin}/sitemap-index.xml`);
+    res.status === 200 ? ok('/sitemap-index.xml is served, not redirected') : fail(`/sitemap-index.xml must be served, got ${res.status}`);
+  }
 }
 
 if (process.exitCode) { console.error('\nCHECK FAILED'); } else { console.log('\nCHECK PASSED'); }

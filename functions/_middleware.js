@@ -29,6 +29,15 @@ const REDIRECT_HOSTS = new Set([
   'devzakir.pages.dev',
 ]);
 
+// Path redirects, on every host. A public/_redirects file would do nothing
+// here: Cloudflare Pages does not apply _redirects to requests a Function
+// serves, and this middleware serves every route.
+//
+// /sitemap.xml: Astro's sitemap integration writes /sitemap-index.xml, which is
+// what robots.txt names. Many crawlers and SEO tools still probe /sitemap.xml
+// first and got a 404.
+const PATH_REDIRECTS = new Map([['/sitemap.xml', '/sitemap-index.xml']]);
+
 const YEAR = 31536000;
 
 // Cloudflare Pages hands every static asset to the browser with
@@ -51,10 +60,18 @@ const STATIC = /\.(?:avif|webp|png|jpe?g|gif|svg|ico)$/i;
 export async function onRequest(context) {
   const url = new URL(context.request.url);
 
-  if (REDIRECT_HOSTS.has(url.hostname)) {
-    url.protocol = 'https:';
-    url.hostname = PRIMARY;
-    url.port = '';
+  const wrongHost = REDIRECT_HOSTS.has(url.hostname);
+  const movedTo = PATH_REDIRECTS.get(url.pathname);
+
+  // Host and path are fixed in one hop: devzakir.com/sitemap.xml goes straight
+  // to zakirhossen.com/sitemap-index.xml, not through a second 301.
+  if (wrongHost || movedTo) {
+    if (wrongHost) {
+      url.protocol = 'https:';
+      url.hostname = PRIMARY;
+      url.port = '';
+    }
+    if (movedTo) url.pathname = movedTo;
 
     return new Response(null, {
       status: 301,
