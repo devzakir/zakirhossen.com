@@ -34,7 +34,7 @@ which I explain at the end.
 ## Be careful with the benchmark numbers
 
 Search for this comparison and you will find SWE-bench Verified scores quoted
-to one decimal place, usually both above 96%. I am not going to repeat those as
+to one decimal place. I am not going to repeat those as
 if I verified them, because I did not, and neither did most of the posts
 quoting them.
 
