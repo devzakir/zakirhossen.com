@@ -1,0 +1,29 @@
+---
+import { content } from '../data/content';
+const { quickFacts, identity, projects } = content;
+
+// Every value comes from identity or projects, the same fields the Person
+// JSON-LD reads, so the visible facts and the markup cannot drift apart.
+const names = projects.items.map((p) => p.name);
+const builds = `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`;
+
+const rows = [
+  { label: 'Name', value: identity.name },
+  { label: 'Known online as', value: quickFacts.handlesEn },
+  { label: 'Work', value: `${identity.jobTitle} at ${projects.parent.name}` },
+  { label: 'Builds', value: builds },
+  { label: 'From', value: identity.birthPlace },
+];
+---
+<section class="mx-auto max-w-2xl px-6 py-16">
+  <h2 class="mb-6 text-sm font-semibold uppercase tracking-wide text-neutral-500" lang="en">{quickFacts.heading}</h2>
+  <p class="text-lg leading-relaxed text-neutral-700 dark:text-neutral-300" lang="en">{quickFacts.introEn}</p>
+  <dl class="mt-6">
+    {rows.map((r) => (
+      <div class="flex items-baseline justify-between gap-4 border-b border-neutral-200 py-3 dark:border-neutral-800">
+        <dt class="shrink-0 font-medium" lang="en">{r.label}</dt>
+        <dd class="text-right text-neutral-600 dark:text-neutral-400" lang="en">{r.value}</dd>
+      </div>
+    ))}
+  </dl>
+</section>

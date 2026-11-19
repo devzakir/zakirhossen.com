@@ -7,7 +7,7 @@ export const content = {
     ogImage: '/og-v1.png',
     // The homepage's <lastmod> in the sitemap. Bump it when the homepage copy
     // changes. New posts bump it on their own (the newest post date wins).
-    updated: '2026-11-09',
+    updated: '2026-11-19',
   },
 
   // Machine-readable identity. Feeds the Person JSON-LD — the thing Google's
@@ -22,8 +22,8 @@ export const content = {
     handle: ['devzakir', 'devzakirbhai'],
     jobTitle: 'Founder & Software Engineer',
     // Many people share the name. This one sentence says which Zakir Hossen
-    // this is. It feeds Person.disambiguatingDescription and the visible
-    // "Quick facts" block on the homepage, so the two always match.
+    // this is. It feeds Person.disambiguatingDescription. The visible "Quick
+    // facts" block on the homepage shows the same facts from the same fields.
     disambiguation:
       'Bangladeshi software founder known online as devzakir. Founder of Lomeyo, LLC, the company behind JuggleHire, Schedule & Chill and ShipTell.',
     birthPlace: 'Tarakanda, Mymensingh, Bangladesh',
@@ -111,6 +111,14 @@ export const content = {
   story: {
     en: "From Tarakanda, a village in Mymensingh, Bangladesh. SSC pass, dropped out of a diploma — then 10+ years teaching myself to build software. Married at 22, two sons, a paralyzed father to care for. In 2024 I was 450,000 BDT in debt. I climbed out. Today I'm the solo founder of Lomeyo, LLC — building software products in the open, working toward a million by the end of 2027.",
     accentBn: 'ধীরে, সৎভাবে, ধৈর্য ধরে — এটাই আমার পথ।',
+  },
+  // Homepage block that tells this Zakir Hossen apart from the others with the
+  // same name. Rows are built in QuickFacts.astro from identity and projects,
+  // so no fact is typed twice.
+  quickFacts: {
+    heading: 'Quick facts',
+    introEn: 'Many people are named Zakir Hossen. This site belongs to Zakir Hossen (devzakir).',
+    handlesEn: 'devzakir (English), devzakirbhai (Bangla)',
   },
   follow: {
     founder: {
