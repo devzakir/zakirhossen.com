@@ -118,6 +118,11 @@ refactor plus three new tests plus a README section nobody asked for. Claude
 Code does this more than Codex does. The prompt that works is boring and
 specific: say what to change, say what not to touch.
 
+Specific prompts get long, so I give a large share of mine by voice instead of
+typing them. Of the 147,000 words I have dictated since January 2025, 57% went
+into the terminal where I run Claude Code. The full numbers are in my
+[Wispr Flow review](/writing/wispr-flow-review/).
+
 ## What I actually do now
 
 I stopped picking one:
