@@ -2,7 +2,7 @@ export const content = {
   meta: {
     title: 'Zakir Hossen — solo founder building software in the open',
     description:
-      'Bangladeshi solo founder building JuggleHire, Schedule & Chill and ShipTell under Lomeyo, LLC. Built in the open, with real numbers and real failures.',
+      'Bangladeshi solo founder building JuggleHire and Schedule & Chill under Lomeyo, LLC. Built in the open, with real numbers and real failures.',
     url: 'https://zakirhossen.com',
     ogImage: '/og-v1.png',
     // The homepage's <lastmod> in the sitemap. Bump it when the homepage copy
@@ -25,7 +25,7 @@ export const content = {
     // this is. It feeds Person.disambiguatingDescription. The visible "Quick
     // facts" block on the homepage shows the same facts from the same fields.
     disambiguation:
-      'Bangladeshi software founder known online as devzakir. Founder of Lomeyo, LLC, the company behind JuggleHire, Schedule & Chill and ShipTell.',
+      'Bangladeshi software founder known online as devzakir. Founder of Lomeyo, LLC, the company behind JuggleHire and Schedule & Chill.',
     birthPlace: 'Tarakanda, Mymensingh, Bangladesh',
     country: 'Bangladesh',
     knowsAbout: [
@@ -103,7 +103,6 @@ export const content = {
       href: 'https://lomeyo.com',
     },
     also: [
-      { name: 'ShipTell', href: 'https://shiptell.com' },
       { name: 'LomeyoLabs', href: 'https://lomeyolabs.com' },
       { name: 'Sohoj Biye', href: 'https://sohojbiyebd.com' },
     ],
@@ -146,13 +145,13 @@ export const content = {
     meta: {
       title: 'Projects by Zakir Hossen: JuggleHire, Schedule & Chill',
       description:
-        'Software I build and run alone: JuggleHire, Schedule & Chill, ShipTell and LomeyoLabs under Lomeyo, LLC, plus Sohoj Biye, a free Bangla biodata maker.',
+        'Software I build and run alone: JuggleHire, Schedule & Chill and LomeyoLabs under Lomeyo, LLC, plus Sohoj Biye, a free Bangla biodata maker.',
     },
     // The page's <lastmod> in the sitemap. Bump it when this section changes.
-    updated: '2026-11-06',
+    updated: '2026-11-19',
     heading: 'Projects',
     // Every fact below comes from the product's own facts file in the shared
-    // context repo (jugglehire.md, snchill.md, shiptell.md, lomeyo.md) or from
+    // context repo (jugglehire.md, snchill.md, lomeyo.md) or from
     // the live product site. No prices here: they change, and they belong on
     // the product sites.
     intro:
@@ -189,19 +188,6 @@ export const content = {
         ],
       },
       {
-        name: 'ShipTell',
-        href: 'https://shiptell.com',
-        category: 'Customer support for software teams',
-        status: 'Live',
-        descEn:
-          'Customer support built on top of your GitHub activity. It writes changelogs from pull requests and commits, runs a shared inbox, live chat and email tickets, and keeps a public roadmap that tells voters when their request ships.',
-        role: 'Founder. I built it and run it alone.',
-        stack: 'Laravel 13, PHP 8.4, Inertia, React 19 and TypeScript, Laravel Reverb for live chat, OpenAI models through the Laravel AI SDK.',
-        facts: [
-          'An MCP server for changelogs, the inbox, the knowledge base and the roadmap.',
-        ],
-      },
-      {
         name: 'LomeyoLabs',
         href: 'https://lomeyolabs.com',
         category: 'Templates & self-hosted software',
@@ -234,10 +220,10 @@ export const content = {
       name: 'Lomeyo, LLC',
       href: 'https://lomeyo.com',
       descEn:
-        'The US company (a Delaware LLC) behind JuggleHire, Schedule & Chill, ShipTell and LomeyoLabs, run from Bangladesh. 100% bootstrapped: no funding, no co-founder, no shortcuts.',
+        'The US company (a Delaware LLC) behind JuggleHire, Schedule & Chill and LomeyoLabs, run from Bangladesh. 100% bootstrapped: no funding, no co-founder, no shortcuts.',
     },
     howIBuild:
-      'All three SaaS products run on the same stack, Laravel with Inertia and React, and I build them with AI coding agents every day. Three of them have MCP servers. What I learn doing that ends up in the writing:',
+      'Both SaaS products run on the same stack, Laravel with Inertia and React, and I build them with AI coding agents every day. Both have MCP servers. What I learn doing that ends up in the writing:',
   },
 
   // ---- /now ---------------------------------------------------------------
@@ -251,7 +237,7 @@ export const content = {
         'A current snapshot of what I am focused on as a solo founder — the products I am building, what I am learning, and what I am deliberately ignoring.',
     },
     heading: 'What I am doing now',
-    updated: '2026-11-09',
+    updated: '2026-11-19',
     intro:
       'This is a now page — a snapshot of what actually has my attention today, not a list of everything I have ever done. I update it when the focus genuinely changes.',
     sections: [
@@ -260,7 +246,6 @@ export const content = {
         items: [
           'Growing JuggleHire, my recruitment software for small teams. Talking to customers every week and shipping what they ask for, not what I find interesting.',
           'Running Schedule & Chill as a free product: a social media scheduler your AI tools can post through. Its MCP server has been on the official MCP Registry since September 2026.',
-          'Keeping ShipTell live alongside both.',
         ],
       },
       {

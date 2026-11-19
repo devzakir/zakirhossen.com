@@ -103,8 +103,8 @@ biggest week since May was about 6,000 words, and nothing stopped me.
   all work the same way. I do not switch tools to dictate.
 - **Bangla works.** Bangla is my first language. 123 of my dictations were
   detected as Bangla, and 103 of them came out in Bangla script.
-- **The dictionary learns my words.** I have 21 entries: my product names like
-  JuggleHire and ShipTell, my company name, and the names of people I work with.
+- **The dictionary learns my words.** I have 21 entries: product names like
+  JuggleHire, my company name, and the names of people I work with.
 - **Meeting notes reach my agents.** I have used the Notetaker since August 2026
   for 28 meetings, about 14 hours. Wispr has an MCP server, so Claude Code can
   read those notes directly, and a small script files each new meeting into my

@@ -156,7 +156,7 @@ for (const [file, path] of [
 
   // Each product must resolve to an Organization founded by this Person, under
   // the same @id the product site uses for itself.
-  for (const host of ['jugglehire.com', 'schedulenchill.com', 'shiptell.com']) {
+  for (const host of ['jugglehire.com', 'schedulenchill.com']) {
     const org = (data['@graph'] || []).find((n) => n['@id'] === `https://${host}/#organization`);
     org?.founder?.['@id'] === `${SITE}/#person`
       ? ok(`${path} JSON-LD: ${host} founded by the Person`)
@@ -331,8 +331,24 @@ for (const slug of articles) {
 for (const slug of articles) {
   const page = readFileSync(`dist/writing/${slug}/index.html`, 'utf8');
   const body = page.match(/<article>([\s\S]*?)<\/article>/)?.[1] ?? '';
-  const n = (body.match(/href="https:\/\/(?:www\.)?(?:jugglehire|schedulenchill|shiptell|lomeyo|lomeyolabs)\.com[^"]*"/g) || []).length;
+  const n = (body.match(/href="https:\/\/(?:www\.)?(?:jugglehire|schedulenchill|lomeyo|lomeyolabs)\.com[^"]*"/g) || []).length;
   n <= 1 ? ok(`/writing/${slug}/ ${n} cross-site link(s)`) : fail(`/writing/${slug}/ has ${n} cross-site links, max 1`);
+}
+
+// ShipTell shut down on 2026-11-19 and shiptell.com no longer resolves. No
+// built file may link to it or name it in structured data. A post may still
+// mention ShipTell by name in the past tense.
+{
+  const hits = [];
+  const walk = (dir) => {
+    for (const e of readdirSync(dir, { withFileTypes: true })) {
+      const p = `${dir}/${e.name}`;
+      if (e.isDirectory()) walk(p);
+      else if (/\.(html|xml|txt|json)$/.test(p) && /shiptell\.com/i.test(readFileSync(p, 'utf8'))) hits.push(p);
+    }
+  };
+  walk('dist');
+  hits.length === 0 ? ok('no shiptell.com in dist/') : fail(`shiptell.com still in: ${hits.join(', ')}`);
 }
 
 // Only the 404 page may carry noindex. One stray robots meta on a real page

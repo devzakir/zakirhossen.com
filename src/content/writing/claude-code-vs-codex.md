@@ -159,5 +159,5 @@ one properly and using it as autocomplete.
 
 *I build [software products](/projects/) solo under Lomeyo, LLC — a hiring
 platform, a social scheduler, and a few smaller things. Everything above comes
-out of that work. Three of them have MCP servers built in Laravel, and
+out of that work. Two of them have MCP servers built in Laravel, and
 [here is what building those taught me](/writing/laravel-mcp/).*

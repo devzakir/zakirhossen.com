@@ -3,20 +3,21 @@ title: "Laravel MCP: What Three Production Servers Taught Me"
 metaTitle: "Laravel MCP: Lessons From Three Production Servers"
 description: "How to build an MCP server with the official laravel/mcp package, and six problems I had to fix on my three production Laravel MCP servers."
 date: 2026-10-07
-updated: 2026-10-14
+updated: 2026-11-19
 keyword: laravel mcp
 volume: 320
 difficulty: 6
 tags: [laravel, mcp, ai agents]
 ---
 
-I run three MCP servers built with `laravel/mcp`, the official Laravel
-package. Each one sits inside a product I already had:
+I have built three MCP servers with `laravel/mcp`, the official Laravel
+package. Each one went inside a product I already had:
 
 - **[Schedule & Chill](https://schedulenchill.com/)**, a social media scheduler. Its MCP server is public:
   22 tools, reachable with an API token or over OAuth 2.1.
-- **ShipTell**, a support and changelog tool. Its server covers changelogs,
-  the inbox, the knowledge base and the roadmap.
+- **ShipTell**, a support and changelog tool. Its server covered changelogs,
+  the inbox, the knowledge base and the roadmap. I shut ShipTell down in
+  November 2026, so two of the three servers still run.
 - **JuggleHire**, a hiring platform. A small internal server, read-only,
   that my own agents use to look up customers.
 
