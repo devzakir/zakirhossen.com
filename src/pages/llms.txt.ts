@@ -22,6 +22,9 @@ const PROFILE_LABELS: Record<string, string> = {
   'facebook.com': 'Facebook',
   'instagram.com': 'Instagram',
   'tiktok.com': 'TikTok',
+  'indiehackers.com': 'Indie Hackers',
+  'peerlist.io': 'Peerlist',
+  'bio.link': 'bio.link',
 };
 const label = (url: string) =>
   Object.entries(PROFILE_LABELS).find(([k]) => url.includes(k))?.[1] ?? url;

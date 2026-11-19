@@ -45,6 +45,12 @@ export const content = {
       'https://facebook.com/devzakirbhai',
       'https://instagram.com/devzakirbhai',
       'https://tiktok.com/@devzakirbhai',
+      // Checked 2026-11-19: each page shows "Zakir Hossen" with the devzakir
+      // handle and links one of his products or this site. Product Hunt and
+      // G2 were left out because their pages could not be opened to check.
+      'https://www.indiehackers.com/devzakir',
+      'https://peerlist.io/devzakir',
+      'https://bio.link/devzakir',
     ],
   },
 
