@@ -70,7 +70,7 @@ just how fast I type. I keep a set of skill files that encode things I have
 learned the hard way — how my deploy pipeline works, which database gotchas
 bite me when SQLite passes locally and MySQL fails in production, what my
 commit messages should look like. Claude Code loads the relevant one on its
-own. Codex has no real equivalent that I have found.
+own.
 
 **Worktrees.** I often run several sessions on the same repository. Claude Code
 handles git worktrees well enough that I can genuinely parallelise, which was
