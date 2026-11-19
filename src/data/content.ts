@@ -21,6 +21,11 @@ export const content = {
     // they are one person, not two.
     handle: ['devzakir', 'devzakirbhai'],
     jobTitle: 'Founder & Software Engineer',
+    // Many people share the name. This one sentence says which Zakir Hossen
+    // this is. It feeds Person.disambiguatingDescription and the visible
+    // "Quick facts" block on the homepage, so the two always match.
+    disambiguation:
+      'Bangladeshi software founder known online as devzakir. Founder of Lomeyo, LLC, the company behind JuggleHire, Schedule & Chill and ShipTell.',
     birthPlace: 'Tarakanda, Mymensingh, Bangladesh',
     country: 'Bangladesh',
     knowsAbout: [

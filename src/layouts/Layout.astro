@@ -67,6 +67,7 @@ const graph = [
     image: new URL('/zakir.jpg', meta.url).href,
     jobTitle: identity.jobTitle,
     description: meta.description,
+    disambiguatingDescription: identity.disambiguation,
     email: `mailto:${content.footer.email}`,
     birthPlace: { '@type': 'Place', name: identity.birthPlace },
     nationality: { '@type': 'Country', name: identity.country },
